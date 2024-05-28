@@ -25,8 +25,8 @@ class PromiseDom {
                 };
                 this.document.addEventListener('DOMContentLoaded', onDOMContentLoaded, false);
             }
-        }).catch(error => {
-            console.error('Error initializing PromiseDom:', error);
+        // }).catch(error => {
+        //     console.error('Error initializing PromiseDom:', error);
         });
     }
 }
