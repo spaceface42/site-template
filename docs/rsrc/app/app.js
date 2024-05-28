@@ -14,24 +14,26 @@ promiseDom.ready.then(() => {
      *
      * fetchOne or fetchAll
      */
-    // Example usage of fetchOne
-    /* const linkElement = document.querySelector('link[rel="manualhtml"]');
+    // Example usage of fetchOne (uncomment to use)
+    /*
+    const linkElement = document.querySelector('link[rel="manualhtml"]');
     if (linkElement && linkElement instanceof HTMLLinkElement) {
         fetchPartial.fetchOne(undefined, linkElement)
             .then(() => console.log('FetchOne completed'))
             .catch(error => console.error('Error during fetching partial / fetchOne:', error));
-    } */
-    // fetchAll html partials
+    }
+    */
+    // Fetch all HTML partials
     fetchPartial.fetchAll()
         .then(() => console.log('FetchAll completed'))
         .catch(error => console.error('Error during fetching partial / fetchAll:', error));
-    // call startup function
+    // Call startup function
     startup();
 });
 /**
- * this function is responsible to set up ux
+ * This function is responsible for setting up the UX.
  */
 function startup() {
-    console.log('hellow orld');
+    console.log('hello world');
 }
 //# sourceMappingURL=app.js.map
