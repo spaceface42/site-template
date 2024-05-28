@@ -1,6 +1,9 @@
 /**
- * startup
+ * init.ts
+ * 
+ * Initialization script for the application.
  */
+
 import PromiseDom from '../42/PromiseDom.js';
 import FetchPartial from '../42/FetchPartial.js';
 
@@ -10,15 +13,24 @@ const fetchPartial = new FetchPartial();
 // Instantiate PromiseDom
 const promiseDom = new PromiseDom();
 
-// Use PromiseDom to wait for DOM ready state
-promiseDom.ready.then(() => {
+/**
+ * Main entry point for the application.
+ * This function initializes the application once the DOM is fully loaded.
+ */
+function main(): void {
     /**
-     * Once the DOM is ready, perform fetch operations
-     * 
-     * fetchOne or fetchAll
+     * Fetch and update partial HTML content.
      */
+    fetchPartial.fetchAll()
+        .then(() => {
+            console.log('FetchAll completed');
+            initializeUX();
+        })
+        .catch(error => {
+            console.error('Error during fetching partial / fetchAll:', error);
+        });
 
-    // Example usage of fetchOne (uncomment to use)
+    // Example usage of fetchOne
     /*
     const linkElement = document.querySelector('link[rel="manualhtml"]');
     if (linkElement && linkElement instanceof HTMLLinkElement) {
@@ -27,19 +39,26 @@ promiseDom.ready.then(() => {
             .catch(error => console.error('Error during fetching partial / fetchOne:', error));
     }
     */
-
-    // Fetch all HTML partials
-    fetchPartial.fetchAll()
-        .then(() => console.log('FetchAll completed'))
-        .catch(error => console.error('Error during fetching partial / fetchAll:', error));
-
-    // Call startup function
-    startup();
-});
+}
 
 /**
- * This function is responsible for setting up the UX.
+ * Initializes the user experience (UX) elements.
+ * This function sets up the necessary UX components and interactions.
  */
-function startup() {
-    console.log('hello world');
+function initializeUX(): void {
+    console.log('Initializing UX components');
+    // Add your UX setup code here
+    const appElement = document.getElementById('app');
+    if (appElement) {
+        appElement.innerHTML = '<h1>Welcome to the Application</h1>';
+    }
+    // Additional UX setup logic can go here
 }
+
+// Use PromiseDom to wait for the DOM ready state before running the main function
+promiseDom.ready.then(() => {
+    console.info('DOM is ready. Starting application initialization.');
+    main();
+}).catch(error => {
+    console.error('Error during DOM readiness check:', error);
+});
