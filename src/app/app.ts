@@ -31,6 +31,7 @@ function main(): void {
         });
 
     // Example usage of fetchOne
+    // to use when using a js router for example
     /*
     const linkElement = document.querySelector('link[rel="manualhtml"]');
     if (linkElement && linkElement instanceof HTMLLinkElement) {
