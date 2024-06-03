@@ -5,7 +5,7 @@ class PromiseDom {
      */
     constructor(document = window.document) {
         this.document = document;
-        console.info('_42 / PromiseDom');
+        console.info('PromiseDom initialized');
         this.ready = new Promise((resolve, reject) => {
             try {
                 const state = this.document.readyState;
