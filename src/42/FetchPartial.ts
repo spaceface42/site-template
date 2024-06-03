@@ -15,7 +15,7 @@ class FetchPartial {
      */
     async fetchOne(url?: string, element?: Element): Promise<void> {
         if (!element) {
-            console.error('No element provided for fetchOne');
+            console.error('fetchOne: No element provided');
             return;
         }
 
@@ -24,12 +24,12 @@ class FetchPartial {
                 url = element.getAttribute('href') || undefined;
             }
             if (!url) {
-                console.error('No URL provided for fetchOne');
+                console.error('fetchOne: No URL provided');
                 return;
             }
             await this.fetch(url, element);
         } catch (error) {
-            console.error(`Error fetching partial from ${url}:`, error);
+            console.error(`fetchOne: Error fetching partial from ${url}:`, error);
         }
     }
 
@@ -39,18 +39,19 @@ class FetchPartial {
      */
     async fetchAll(selector: string = 'link[rel="html"]'): Promise<void> {
         try {
-            const partials: NodeListOf<Element> = document.querySelectorAll(selector);
-
-            await Promise.allSettled(Array.from(partials).map(partial => {
+            const partials = document.querySelectorAll<Element>(selector);
+            const fetchPromises = Array.from(partials).map(async (partial) => {
                 const url = partial.getAttribute('href');
                 if (!url) {
-                    console.error('No URL provided for fetchAll on element:', partial);
-                    return Promise.resolve();
+                    console.error('fetchAll: No URL provided for element:', partial);
+                    return;
                 }
-                return this.fetch(url, partial);
-            }));
+                await this.fetch(url, partial);
+            });
+
+            await Promise.allSettled(fetchPromises);
         } catch (error) {
-            console.error('Error fetching all partials:', error);
+            console.error('fetchAll: Error fetching all partials:', error);
         }
     }
 
@@ -63,11 +64,11 @@ class FetchPartial {
         try {
             const response = await fetch(url);
             if (!response.ok) {
-                throw new Error(`Failed to fetch partial from ${url}`);
+                throw new Error(`makeRequest: Failed to fetch partial from ${url} - ${response.statusText}`);
             }
-            return response.text();
+            return await response.text();
         } catch (error) {
-            console.error(`Error making request to ${url}:`, error);
+            console.error(`makeRequest: Error making request to ${url}:`, error);
             throw error;
         }
     }
@@ -85,10 +86,10 @@ class FetchPartial {
             if (htmlPartial) {
                 element.replaceWith(htmlPartial);
             } else {
-                console.error('Fetched content is empty');
+                console.error('processRequest: Fetched content is empty');
             }
         } catch (error) {
-            console.error('Error processing response:', error);
+            console.error('processRequest: Error processing response:', error);
             throw error;
         }
     }
@@ -103,7 +104,7 @@ class FetchPartial {
             const response = await this.makeRequest(url);
             await this.processRequest(response, element);
         } catch (error) {
-            console.error(`Error fetching partial from ${url}:`, error);
+            console.error(`fetch: Error fetching partial from ${url}:`, error);
         }
     }
 }
