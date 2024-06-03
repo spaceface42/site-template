@@ -1,11 +1,12 @@
 /**
- * FetchPartial v08
+ * FetchPartial v09
  *
  * FetchPartial class provides methods to fetch and process partial HTML content.
  */
 class FetchPartial {
-    constructor() {
+    constructor(defaultSelector = 'link[rel="html"]') {
         console.info('FetchPartial initialized');
+        this.defaultSelector = defaultSelector;
     }
     /**
      * Fetches a single partial HTML content and updates the provided element with the response.
@@ -22,20 +23,20 @@ class FetchPartial {
                 url = element.getAttribute('href') || undefined;
             }
             if (!url) {
-                console.error('fetchOne: No URL provided');
+                console.error(`fetchOne: No URL provided for element:`, element);
                 return;
             }
             await this.fetch(url, element);
         }
         catch (error) {
-            console.error(`fetchOne: Error fetching partial from ${url}:`, error);
+            console.error(`fetchOne: Error fetching partial for element:`, element, error);
         }
     }
     /**
      * Fetches all partial HTML content matching the provided selector and updates each element with the response.
      * @param selector The CSS selector to query for partial HTML content elements.
      */
-    async fetchAll(selector = 'link[rel="html"]') {
+    async fetchAll(selector = this.defaultSelector) {
         try {
             const partials = document.querySelectorAll(selector);
             await Promise.allSettled(Array.from(partials).map(async (partial) => {
@@ -72,11 +73,11 @@ class FetchPartial {
         const template = document.createElement('template');
         template.innerHTML = response.trim();
         const htmlPartial = template.content.cloneNode(true);
-        if (htmlPartial) {
+        if (htmlPartial && htmlPartial.childElementCount > 0) {
             element.replaceWith(htmlPartial);
         }
         else {
-            console.error('processRequest: Fetched content is empty');
+            console.error('processRequest: Fetched content is empty or invalid for element:', element);
         }
     }
     /**
@@ -90,7 +91,7 @@ class FetchPartial {
             await this.processRequest(response, element);
         }
         catch (error) {
-            console.error(`fetch: Error fetching partial from ${url}:`, error);
+            console.error(`fetch: Error fetching partial for element:`, element, error);
         }
     }
 }

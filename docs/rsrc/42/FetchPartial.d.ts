@@ -1,10 +1,11 @@
 /**
- * FetchPartial v08
+ * FetchPartial v09
  *
  * FetchPartial class provides methods to fetch and process partial HTML content.
  */
 declare class FetchPartial {
-    constructor();
+    private readonly defaultSelector;
+    constructor(defaultSelector?: string);
     /**
      * Fetches a single partial HTML content and updates the provided element with the response.
      * @param url The URL of the partial HTML content.
