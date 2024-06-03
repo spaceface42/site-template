@@ -6,20 +6,24 @@ class PromiseDom {
     constructor(document = window.document) {
         this.document = document;
         console.info('_42 / PromiseDom');
-        this.ready = new Promise((resolve) => {
-            const state = this.document.readyState;
-            if (state === 'interactive' || state === 'complete') {
-                resolve();
-            }
-            else {
-                const onDOMContentLoaded = () => {
+        this.ready = new Promise((resolve, reject) => {
+            try {
+                const state = this.document.readyState;
+                if (state === 'interactive' || state === 'complete') {
                     resolve();
-                    this.document.removeEventListener('DOMContentLoaded', onDOMContentLoaded);
-                };
-                this.document.addEventListener('DOMContentLoaded', onDOMContentLoaded, false);
+                }
+                else {
+                    const onDOMContentLoaded = () => {
+                        resolve();
+                        this.document.removeEventListener('DOMContentLoaded', onDOMContentLoaded);
+                    };
+                    this.document.addEventListener('DOMContentLoaded', onDOMContentLoaded, false);
+                }
             }
-            // }).catch(error => {
-            //     console.error('Error initializing PromiseDom:', error);
+            catch (error) {
+                console.error('Error initializing PromiseDom:', error);
+                reject(error);
+            }
         });
     }
 }
