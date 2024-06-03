@@ -1,5 +1,5 @@
 /**
- * PromiseDom v07
+ * PromiseDom v09
  * 
  * PromiseDom class provides a promise that resolves when the DOM is ready.
  */
@@ -14,8 +14,8 @@ class PromiseDom {
      */
     constructor(private document: Document = window.document) {
         console.info('_42 / PromiseDom');
-        this.ready = new Promise<void>((resolve) => {
-            const state: DocumentReadyState = this.document.readyState as DocumentReadyState;
+        this.ready = new Promise<void>((resolve, reject) => {
+            const state = this.document.readyState as DocumentReadyState;
             if (state === 'interactive' || state === 'complete') {
                 resolve();
             } else {
@@ -23,10 +23,14 @@ class PromiseDom {
                     resolve();
                     this.document.removeEventListener('DOMContentLoaded', onDOMContentLoaded);
                 };
-                this.document.addEventListener('DOMContentLoaded', onDOMContentLoaded, false);
+
+                try {
+                    this.document.addEventListener('DOMContentLoaded', onDOMContentLoaded);
+                } catch (error) {
+                    console.error('Error initializing PromiseDom:', error);
+                    reject(error);
+                }
             }
-        // }).catch(error => {
-        //     console.error('Error initializing PromiseDom:', error);
         });
     }
 }
