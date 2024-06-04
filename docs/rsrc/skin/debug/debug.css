@@ -1,5 +1,5 @@
 * * * {
-    transition: all 0.6s 150ms ease-in;
+    transition: all 0.25s 0.1s ease-in;
 }
 
 * * *:hover {
