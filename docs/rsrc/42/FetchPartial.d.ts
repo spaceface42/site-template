@@ -1,5 +1,5 @@
 /**
- * FetchPartial v09
+ * FetchPartial v1.0.0
  *
  * FetchPartial class provides methods to fetch and process partial HTML content.
  */

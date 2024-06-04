@@ -20,7 +20,7 @@ async function start() {
         // html message
         const appElement = document.getElementById('app');
         if (appElement) {
-            appElement.innerHTML = '<h3>Welcome to the Application</h3>';
+            appElement.innerHTML = '<h3>Welcome to version 1.0.0</h3>';
         }
         // html message
 
