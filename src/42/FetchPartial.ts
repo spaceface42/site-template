@@ -1,5 +1,5 @@
 /**
- * FetchPartial v09
+ * FetchPartial v1.0.0
  * 
  * FetchPartial class provides methods to fetch and process partial HTML content.
  */
@@ -7,7 +7,7 @@ class FetchPartial {
     private readonly defaultSelector: string;
 
     constructor(defaultSelector: string = 'link[rel="html"]') {
-        console.info('FetchPartial initialized');
+        console.info('FetchPartial v1.0.0 initialized');
         this.defaultSelector = defaultSelector;
     }
 

@@ -15,7 +15,7 @@ async function start() {
     const domReady = new PromiseDom();
     try {
         await domReady.ready;
-        console.log('_app | DOM is fully loaded and parsed');
+        console.log('app.start | DOM is fully loaded and parsed');
 
         // html message
         const appElement = document.getElementById('app');
@@ -30,9 +30,9 @@ async function start() {
         // Fetch and process all partial HTML content
         await fetchPartial.fetchAll();
 
-        console.log('_app | All partial HTML content fetched and processed');
+        console.log('app.start | All partial HTML content fetched and processed');
     } catch (error) {
-        console.error('_app | Error during initialization:', error);
+        console.error('app.start | Error during initialization:', error);
     }
 }
 
