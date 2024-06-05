@@ -1,0 +1,12 @@
+/**
+ *
+ * defaults
+ *
+ */
+
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
