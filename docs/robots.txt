@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /rsrc/
+Disallow: /src/
+
+Sitemap: https://somedomain.org/sitemap.xml
