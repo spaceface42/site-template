@@ -1,4 +1,4 @@
-<div class="cookie-banner">
+<div id="cookie-banner" class="cookie-banner">
     <style>
         .cookie-banner {
             position: fixed;
@@ -9,21 +9,36 @@
             font-size: 0.75rem;
 
             padding: 0.75rem 1.5rem 0.75rem 1.5rem;
-            width: 50ch;
 
             display: flex;
             flex-direction: row;
             gap: 1rem;
+            align-items: center;
+
             text-align: left;
         }
 
+        button {
+            color: whitesmoke;
+            background-color: black;
+            border-radius: 99rem;
+            border-width: 0;
+            padding: 0.5rem 2rem 0.5rem 2rem;
+            text-transform: uppercase;
+        }
     </style>
+    <script>
+        function closeCookieBanner() {
+            var T = document.getElementById("cookie-banner");
+            T.style.display = "none";  // <-- Set it to block
+        }
+    </script>
     <div>
-        <p>By using this website, you agree to our use of cookies. We use cookies to provide you with a great experience and to help our website run effectively.</p>
+        <p>No cookies will be harmed on this website. We simply don't use cookies.</p>
     </div>
     <div>
-        <button class="cookie-banner-accept">
-            x
+        <button onclick="closeCookieBanner()" class="cookie-banner-accept" alt="close">
+            accept
         </button>
     </div>
 </div>
