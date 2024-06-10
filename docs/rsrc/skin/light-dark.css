@@ -1,0 +1,31 @@
+
+
+:root {
+    --base: #cfcfcf;
+    --text: #212121;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+      --base: #212121;
+      --text: #cfcfcf;
+    }
+}
+
+html {
+    color-scheme: dark light;
+}
+
+
+
+
+body {
+    color: var(--text);
+    background-color: var(--base);
+}
+
+https://www.youtube.com/watch?v=zFFuV_vXNhY
+
+https://codepen.io/kevinpowell/pen/KKEevOp
+
+
