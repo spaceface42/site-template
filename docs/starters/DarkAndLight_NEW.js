@@ -56,6 +56,14 @@ let currentThemeSetting = calculateSettingAsThemeString({ localStorageTheme, sys
 updateThemeOnHtmlEl({ theme: currentThemeSetting });
 
 /**
+ * Toggle the 'active' class on the button if needed
+ */
+if (currentThemeSetting === "dark") {
+  button.classList.add('active');
+}
+
+
+/**
  * 4. Add an event listener to toggle the theme
  */
 button.addEventListener("click", (event) => {
