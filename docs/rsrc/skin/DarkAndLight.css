@@ -40,6 +40,29 @@ body {
 
 
 
+
+
+
+
+.menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+
+
+
+.menu a:not(.theme-toggle) {
+  color: var(--text);
+  background: var(--base);
+  border-radius: 999rem;
+  font-size: 0.75rem;
+  padding: 0.3rem 2rem 0.3rem 2rem;
+  
+}
+
 /* toggle button */
 .theme-toggle {
   display: inline-block;
