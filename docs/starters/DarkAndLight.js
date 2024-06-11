@@ -1,47 +1,151 @@
-document.addEventListener('DOMContentLoaded', () => {
+/**
+ * init.ts
+ *
+ * Initialization script for the application.
+ */
+import PromiseDom from '../rsrc/42/PromiseDom.js';
+// import FetchPartial from '../42/FetchPartial.js';
 
+async function start() {
+    // Instantiate PromiseDom
+    const domReady = new PromiseDom();
+    try {
+        await domReady.ready;
+        console.log('app.start | DOM is fully loaded and parsed');
 
-  
-  // Function to toggle the theme
-  function toggleTheme() {
-    // Select the <html> element
-    var htmlElement = document.documentElement;
-    // Get the current value of the 'data-theme' attribute
-    var currentTheme = htmlElement.getAttribute('data-theme');
+        // html message
+        // Create an instance of FetchPartial
+        // const fetchPartial = new FetchPartial();
+        // Fetch and process all partial HTML content
+        // await fetchPartial.fetchAll();
+        // console.log('app.start | All partial HTML content fetched and processed');
 
-    // Check the current theme and toggle it
-    if (currentTheme === "dark") {
-      htmlElement.setAttribute("data-theme", "light");
-    } else if (currentTheme === "light") {
-      htmlElement.setAttribute("data-theme", "dark");
-    } else {
-      // Determine the user's system preference
-      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        // If system preference is dark, set the initial theme to light
-        htmlElement.setAttribute("data-theme", "dark");
-      } else {
-        // If system preference is light, set the initial theme to dark
-        htmlElement.setAttribute("data-theme", "light");
-      }
+      setup();
+
     }
-
-// Toggle the active class on the button
-var button = document.getElementById('theme-toggle-button');
-button.classList.toggle('off');
-button.classList.toggle('on');
-
-// Save the selected theme in a cookie
-document.cookie = "theme=" + htmlElement.getAttribute('data-theme') + ";expires=Fri, 31 Dec 9999 23:59:59 GMT";
+    catch (error) {
+        console.error('app.start | Error during initialization:', error);
+    }
 }
 
-// Add event listener to the button
-document.getElementById('theme-toggle-button').addEventListener('click', toggleTheme);
-
-// Initial call to set the initial theme based on system preference
-toggleTheme();
+// Start the script
+start();
 
 
 
 
+function setup() {
 
+
+
+
+
+/**
+ * Utility function to calculate the current theme setting.
+ * Look for a local storage value.
+ * Fall back to system setting.
+ * Fall back to light mode.
+ */
+function calculateSettingAsThemeString({ localStorageTheme, systemSettingDark }) {
+  if (localStorageTheme !== null) {
+    return localStorageTheme;
+  }
+
+  if (systemSettingDark.matches) {
+    return "dark";
+  }
+
+  return "light";
+}
+
+/**
+ * On page load:
+ */
+
+/**
+ * 1. Grab what we need from the DOM and system settings on page load
+ */
+const button = document.getElementById("theme-toggle-button");
+
+// const localStorageTheme = localStorage.getItem("theme");
+const localStorageTheme = getLocalStorageItem("theme");
+const systemSettingDark = window.matchMedia("(prefers-color-scheme: dark)");
+
+/**
+ * 2. Work out the current site settings
+ */
+let currentThemeSetting = calculateSettingAsThemeString({ localStorageTheme, systemSettingDark });
+
+/**
+ * 3. Update the theme setting and button text according to current settings
+ */
+updateThemeOnHtmlEl({ theme: currentThemeSetting });
+
+/**
+ * 4. Toggle the 'active' class on the button if needed
+ */
+if (currentThemeSetting === "dark") {
+  button.classList.add('active');
+}
+
+
+/**
+ * 5. Add an event listener to toggle the theme
+ */
+button.addEventListener("click", (event) => {
+  const newTheme = currentThemeSetting === "dark" ? "light" : "dark";
+
+  // localStorage.setItem("theme", newTheme);
+  setLocalStorageItem("theme", newTheme);
+  updateThemeOnHtmlEl({ theme: newTheme });
+
+  // Toggle the 'active' class on the button for animation
+  button.classList.toggle('active');
+
+  currentThemeSetting = newTheme;
 });
+
+
+
+/**
+ * utility functions
+ */
+/**
+ * to update the theme setting on the html tag
+ */
+function updateThemeOnHtmlEl({ theme }) {
+  document.querySelector("html").setAttribute("data-theme", theme);
+}
+
+/**
+ * set local storage
+ */
+function setLocalStorageItem(key, value) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch (error) {
+    // Handle errors, such as exceeding storage quota
+    console.error('Error setting item in localStorage:', error);
+  }
+}
+
+/**
+ * get local storage
+ */
+function getLocalStorageItem(key) {
+  try {
+    const value = localStorage.getItem(key);
+    return value ? JSON.parse(value) : null;
+  } catch (error) {
+    // Handle errors, such as JSON parsing errors
+    console.error('Error getting item from localStorage:', error);
+    return null;
+  }
+}
+
+
+
+
+
+
+}

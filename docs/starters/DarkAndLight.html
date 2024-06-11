@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DarkAndLight</title>
 
+    <link rel="stylesheet" href="../rsrc/skin/reset.css" />
+    <link rel="stylesheet" href="../rsrc/skin/tipo.css" />
     <link rel="stylesheet" href="../rsrc/skin/DarkAndLight.css" />
 
 
@@ -27,7 +29,8 @@
     </style>
     <!-- / demo layout -->
 
-
+    <!-- app js -->
+    <script type="module" src="./DarkAndLight.js"></script>
 
   
 </head>
@@ -39,57 +42,8 @@
 <div class="menu">
 
 
-  <script>
-  document.addEventListener('DOMContentLoaded', () => {
 
-
-    
-    // Function to toggle the theme
-    function toggleTheme() {
-      // Select the <html> element
-      var htmlElement = document.documentElement;
-      // Get the current value of the 'data-theme' attribute
-      var currentTheme = htmlElement.getAttribute('data-theme');
-
-      // Check the current theme and toggle it
-      if (currentTheme === "dark") {
-        htmlElement.setAttribute("data-theme", "light");
-      } else if (currentTheme === "light") {
-        htmlElement.setAttribute("data-theme", "dark");
-      } else {
-        // Determine the user's system preference
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          // If system preference is dark, set the initial theme to light
-          htmlElement.setAttribute("data-theme", "dark");
-        } else {
-          // If system preference is light, set the initial theme to dark
-          htmlElement.setAttribute("data-theme", "light");
-        }
-      }
-  
-  // Toggle the active class on the button
-  var button = document.getElementById('theme-toggle-button');
-  button.classList.toggle('off');
-  button.classList.toggle('on');
-
-  // Save the selected theme in a cookie
-  document.cookie = "theme=" + htmlElement.getAttribute('data-theme') + ";expires=Fri, 31 Dec 9999 23:59:59 GMT";
-}
-
-// Add event listener to the button
-document.getElementById('theme-toggle-button').addEventListener('click', toggleTheme);
-
-// Initial call to set the initial theme based on system preference
-toggleTheme();
-
-
-
-
-
-  });
-</script>
-
-<a id="theme-toggle-button" href="#" class="theme-toggle on">
+<a id="theme-toggle-button" class="theme-toggle">
   <div class="knob"></div>
 </a>
 
@@ -106,12 +60,9 @@ toggleTheme();
 
 
 <main>
-  <div class="with-scrollbar">
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga porro eos placeat modi aperiam cumque ratione, expedita eaque sed, fugiat labore doloremque voluptatum, reprehenderit culpa in quis dolore ut. Expedita.</p>
-    <p>Dolor est maxime eius explicabo omnis mollitia perferendis tempore, incidunt optio sint ex repellendus reiciendis ea repellat cum nulla sequi? Autem animi voluptatum unde aliquid ducimus blanditiis rerum aliquam quam.</p>
-    <p>Libero provident quod optio debitis unde amet corporis neque laboriosam et eum ex cum temporibus ab, consequuntur inventore possimus. Consequatur non laborum accusantium ipsa commodi vel aspernatur doloribus consequuntur unde!</p>
-    <p>Expedita consequatur dolorum ipsam porro ad quo odio reiciendis maiores voluptate aliquid ipsa a neque maxime impedit, ex eum optio dignissimos quam. Corrupti, sed dicta ab odit suscipit ipsam quisquam.</p>
-  </div>
+
+  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia harum ratione, et labore perferendis totam voluptate, cumque ad tempora quod voluptatum, iure doloribus obcaecati at! Delectus, sunt ut. Voluptas impedit saepe dolorem assumenda, praesentium laudantium illo sunt quidem sint nulla, quaerat voluptatibus aut possimus porro iste distinctio! Corrupti facilis, quod, incidunt dignissimos possimus ad assumenda velit officiis temporibus dolores magni explicabo saepe aliquid nostrum ex, tempore id inventore debitis ipsa tempora ducimus? Nostrum ea sequi delectus odit fuga, accusamus, perspiciatis eos culpa eveniet quisquam consequuntur assumenda aliquam, minus quasi nam pariatur architecto ipsam numquam obcaecati eum. Error sequi aspernatur dicta ex? Hic quasi consectetur eum quam, asperiores perferendis molestiae quis placeat expedita eaque nobis non minus iure commodi animi voluptate? Asperiores, nemo qui doloribus minus eligendi quia laborum hic ab possimus est sapiente? Nisi eligendi tempora, maiores placeat laborum fugiat voluptates, delectus rem porro ducimus error. Tenetur quae maiores voluptatum odit libero obcaecati aut blanditiis accusantium! Maxime tempore praesentium officiis fugiat illo iusto quo iste repudiandae deleniti repellat atque possimus tenetur hic sint deserunt nam consectetur reprehenderit porro, voluptate incidunt minus sunt distinctio eos. Velit est nihil quae accusamus exercitationem delectus eos tempora libero sit, cum illo expedita autem vitae, non ipsum, doloribus ut laudantium vel nam officia odio excepturi fugit inventore. Quibusdam quasi ab cupiditate nam quaerat odit aut voluptatum incidunt nostrum qui, recusandae rem eos omnis molestias soluta porro quos. Perferendis officia libero nulla tempora impedit officiis rem eum tenetur tempore possimus totam pariatur sunt sed voluptates quaerat illo sint animi, neque adipisci autem dolore debitis sapiente odit? Consequuntur totam repellat neque, fugiat eum adipisci voluptatum cupiditate dolor consequatur voluptatibus incidunt eveniet pariatur ullam molestiae minus quod quibusdam? Mollitia officiis sapiente, aspernatur voluptatem suscipit debitis fugiat fuga consectetur iure expedita! Reprehenderit ea laborum molestiae mollitia soluta officia sunt, assumenda odio fugiat. Repudiandae alias ducimus id provident rerum placeat maiores cupiditate neque pariatur nesciunt fuga molestias, dolor, quia aliquam ex, sit porro enim facere hic exercitationem! Consequatur pariatur odio praesentium eos maiores, nam ducimus distinctio in quis quibusdam iste eligendi dolore nihil neque ab cum aspernatur. Tempora unde iusto totam, quia doloremque alias praesentium voluptatem, et, maiores sapiente officia obcaecati minus dolores rerum in deleniti expedita voluptates. Eaque placeat tenetur deleniti fugit dolorem laudantium corporis ullam vero illum qui odit saepe minima aut necessitatibus sit reprehenderit tempora quo, soluta aspernatur. Aperiam repudiandae, fuga suscipit ipsam deleniti eaque quis, quibusdam facilis laboriosam cumque accusantium dolor animi quo sed cum debitis illo tempora? Mollitia et voluptatibus praesentium amet voluptas eaque molestias quam quis adipisci. Ipsa libero quod maxime laborum maiores odit porro expedita sunt ex voluptates unde perferendis architecto modi assumenda voluptate, nulla repellat tempore fugiat? Consequuntur rem voluptatibus veniam soluta animi expedita ea iste nihil, delectus quia ducimus ex exercitationem non quasi incidunt? Sapiente, sed a, facere dignissimos illo qui tempore, nesciunt pariatur iure saepe consequuntur voluptate perferendis blanditiis officia velit et? Dolore, magnam et, commodi non hic esse autem animi labore quasi numquam asperiores facere voluptate eum ut totam.</p>
+
 </main>
 
 
