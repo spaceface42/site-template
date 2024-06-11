@@ -1,5 +1,8 @@
-
-/* variables for dark and light themes */
+/**
+ * 
+ * variables for dark and light themes
+ *
+ */
 :root {
     --base: #cfcfcf;
     --text: #212121;
@@ -23,23 +26,6 @@ body {
 
 
 
-
-
-
-/* only demo stuff */
-  .with-scrollbar {
-    height: 300px;
-    border: 5px solid hsl(0 0 50% / 0.5);
-    overflow-y: scroll;
-  }
-/* only demo stuff */
-
-
-
-
-
-
-/* Use the two selectors below if you want the JS version */
 [data-theme="light"] {
   color-scheme: light;
   --base: #cfcfcf;
@@ -54,11 +40,8 @@ body {
 
 
 
-
-
-
-/* TOGGLE LAYOUT*/
-.menu .color-toggle {
+/* toggle button */
+.theme-toggle {
   display: inline-block;
   width: 2rem;
   height: 1rem;
@@ -67,7 +50,7 @@ body {
   position: relative;
   margin: 3rem;
 }
-.menu .color-toggle .knob {
+.theme-toggle .knob {
   width: 0.6rem;
   height: 0.6rem;
   background: var(--text);
@@ -76,13 +59,14 @@ body {
   right: 0.2rem;
   top: 0.2rem
 }
-.menu .color-toggle.off .knob {
+
+/* if knob gets clicked */
+.theme-toggle.active .knob {
   right: calc(100% - 0.2rem);
-  transform: translate(100%, 0)
+  transform: translate(100%, 0);
 }
 
-.knob.active {
-  background-color: aqua;
+.theme-toggle.active {
 }
 
 /* ovverrides */

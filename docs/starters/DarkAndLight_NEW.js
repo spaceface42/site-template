@@ -56,11 +56,28 @@ updateThemeOnHtmlEl({ theme: currentThemeSetting });
 button.addEventListener("click", (event) => {
   const newTheme = currentThemeSetting === "dark" ? "light" : "dark";
 
-  localStorage.setItem("theme", newTheme);
+  // localStorage.setItem("theme", newTheme);
+  setLocalStorageItem("theme", newTheme);
   updateThemeOnHtmlEl({ theme: newTheme });
+
+  // Toggle the 'active' class on the button for animation
+  button.classList.toggle('active');
 
   currentThemeSetting = newTheme;
 });
+
+
+/**
+ * X local storage utility
+ */
+function setLocalStorageItem(key, value) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch (error) {
+    // Handle errors, such as exceeding storage quota
+    console.error('Error setting item in localStorage:', error);
+  }
+}
 
 
 
