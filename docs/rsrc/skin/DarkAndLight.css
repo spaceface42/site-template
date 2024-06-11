@@ -50,6 +50,8 @@ body {
   position: relative;
   margin: 3rem;
 }
+
+/* toggle button knob */
 .theme-toggle .knob {
   width: 0.6rem;
   height: 0.6rem;
@@ -60,7 +62,7 @@ body {
   top: 0.2rem
 }
 
-/* if knob gets clicked */
+/* animate if knob gets clicked */
 .theme-toggle.active .knob {
   right: calc(100% - 0.2rem);
   transform: translate(100%, 0);
