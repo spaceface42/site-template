@@ -155,37 +155,61 @@ function getLocalStorageItem(key) {
 
 
 
-// usage: log('inside coolFunc', this, arguments);
-// paulirish.com/2009/log-a-lightweight-wrapper-for-consolelog/
-window.log = function() {
-  log.history = log.history || [];   // store logs to an array for reference
-  log.history.push(Array.from(arguments));
-  if (window.console) {
-    var newarr = Array.from(arguments);
-    console.log.apply(console, newarr);
-  }
-};
-
-// make it safe to use console.log always
-
-
-// Example usage
-log('11111111111');
-log('22222222222', {key: 'value'}, [1, 2, 3]);
-
-
-
-
-// Print the log history at the end
-console.log(log.history.map(item => item.join(' ')).join('\n'));
-
-
-
-
 
 
 
 ///////////////////
+(function(global) {
+  'use strict';
+
+  const logLines = [];
+
+  function formatMessage(message) {
+      const timestamp = new Date().toISOString();
+      let formattedMessage;
+
+      if (typeof message === 'object') {
+          try {
+              formattedMessage = JSON.stringify(message, null, 2);
+          } catch (error) {
+              formattedMessage = '[Unable to stringify object]';
+          }
+      } else {
+          formattedMessage = message;
+      }
+
+      return `${timestamp} - ${formattedMessage}`;
+  }
+
+  function logMessage(message) {
+      const logEntry = formatMessage(message);
+      logLines.push(logEntry);
+
+      if (typeof message === 'object') {
+          console.dir(message);
+      } else {
+          console.log(logEntry);
+      }
+  }
+
+  function getCombinedLogs() {
+      return logLines.join('\n');
+  }
+
+  global.myLogger = {
+      log: logMessage,
+      getLogs: getCombinedLogs
+  };
+})(window);
+
+// Usage example
+myLogger.log('This is a test log message.');
+myLogger.log({ name: 'Sarah', country: 'US', age: 35, treehouseStudent: true, skills: ['JavaScript', 'HTML', 'CSS'] });
+myLogger.log([1, 2, 3, { nested: 'object' }]);
+console.log('Combined Logs:\n' + myLogger.getLogs());
+
+
+console.log('----------------------------------------');
 
 
 
