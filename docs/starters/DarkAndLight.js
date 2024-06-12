@@ -158,15 +158,11 @@ function getLocalStorageItem(key) {
 // usage: log('inside coolFunc', this, arguments);
 // paulirish.com/2009/log-a-lightweight-wrapper-for-consolelog/
 window.log = function() {
-  log.history = log.history || [], '\r'; // store logs to an array for reference
+  log.history = log.history || [];   // store logs to an array for reference
   log.history.push(Array.from(arguments));
-  if (typeof console !== 'undefined') {
-    const newArr = Array.from(arguments);
-    if (typeof console.log === 'object') {
-      log.apply.call(console.log, console, newArr);
-    } else {
-      console.log.apply(console, newArr);
-    }
+  if (window.console) {
+    var newarr = Array.from(arguments);
+    console.log.apply(console, newarr);
   }
 };
 
@@ -174,10 +170,14 @@ window.log = function() {
 
 
 // Example usage
-log('This is a log message');
-log('Another message with multiple arguments', {key: 'value'}, [1, 2, 3]);
+log('11111111111');
+log('22222222222', {key: 'value'}, [1, 2, 3]);
 
-console.log(log.history, '<br>');
+
+
+
+// Print the log history at the end
+console.log(log.history.map(item => item.join(' ')).join('\n'));
 
 
 
