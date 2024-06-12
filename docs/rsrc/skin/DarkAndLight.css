@@ -7,6 +7,12 @@
     --base: #cfcfcf;
     --text: #212121;
 
+    --primary-color: #cccccc;
+    --secondary-color: #cccccc;
+    --accent-color: #f4d10b;
+
+    --background-color: #cccccc;
+
     --ux-background: #212121;
 
 }
@@ -54,13 +60,23 @@ body {
 
 
 .menu {
+  width: 100%;
   display: flex;
-  align-items: center;
-  justify-content: center;
   gap: 2rem;
+
+  align-items: center;
+  align-items: baseline;
+
+  justify-content: center;
+  justify-content: space-between;
 }
 
 
+.home {
+  flex-grow: 1;
+  color: black;
+  background: none !important;
+}
 
 
 .menu a:not(.theme-toggle) {
@@ -69,10 +85,13 @@ body {
   border-radius: 999rem;
   font-size: 0.75rem;
   padding: 0.3rem 2rem 0.3rem 2rem;
-  
 }
 
-/* toggle button */
+/**
+ * 
+ * toggle button
+ *
+ */
 .theme-toggle {
   display: inline-block;
   width: 2rem;
@@ -83,7 +102,6 @@ body {
   margin: 3rem;
 }
 
-/* toggle button knob */
 .theme-toggle .knob {
   width: 0.6rem;
   height: 0.6rem;
@@ -100,8 +118,11 @@ body {
   transform: translate(100%, 0);
 }
 
-.theme-toggle.active {
+.theme-toggle:hover {
+  filter: invert(1);
 }
+
+.theme-toggle.active {}
 
 /* ovverrides */
 /*

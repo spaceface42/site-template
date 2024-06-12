@@ -3,6 +3,9 @@
  *
  * Initialization script for the application.
  */
+
+
+
 import PromiseDom from '../rsrc/42/PromiseDom.js';
 // import FetchPartial from '../42/FetchPartial.js';
 
@@ -149,3 +152,40 @@ function getLocalStorageItem(key) {
 
 
 }
+
+
+
+// usage: log('inside coolFunc', this, arguments);
+// paulirish.com/2009/log-a-lightweight-wrapper-for-consolelog/
+window.log = function() {
+  log.history = log.history || [], '\r'; // store logs to an array for reference
+  log.history.push(Array.from(arguments));
+  if (typeof console !== 'undefined') {
+    const newArr = Array.from(arguments);
+    if (typeof console.log === 'object') {
+      log.apply.call(console.log, console, newArr);
+    } else {
+      console.log.apply(console, newArr);
+    }
+  }
+};
+
+// make it safe to use console.log always
+
+
+// Example usage
+log('This is a log message');
+log('Another message with multiple arguments', {key: 'value'}, [1, 2, 3]);
+
+console.log(log.history, '<br>');
+
+
+
+
+
+
+
+///////////////////
+
+
+
