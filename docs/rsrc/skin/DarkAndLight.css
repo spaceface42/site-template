@@ -6,12 +6,17 @@
 :root {
     --base: #cfcfcf;
     --text: #212121;
+
+    --ux-background: #212121;
+
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
       --base: #212121;
       --text: #cfcfcf;
+
+      --ux-background: #cfcfcf;
     }
 }
 
@@ -30,12 +35,16 @@ body {
   color-scheme: light;
   --base: #cfcfcf;
   --text: #212121;
+
+  --ux-background: #212121;
 }
 
 [data-theme="dark"] {
   color-scheme: dark;
   --base: #212121;
   --text: #cfcfcf;
+
+  --ux-background: #212121;
 }
 
 
