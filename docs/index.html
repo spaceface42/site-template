@@ -56,8 +56,22 @@ main {
     gap: 1rem;
 }
 
+/* partial demo css */
+main {
+    counter-reset: my-counter;
+    inset: 3rem;
+}
+main > p::before {
+    counter-increment: my-counter; /* Increment the value of section counter by 1 */
+    content: "partial no: " counter(my-counter) ": "; /* Display counter value in default style (decimal) */
+    background-color: lightpink;
+}
+
+
+
+
 aside {
-    border-right: 2px solid rgba(236, 235, 235, 0.467);
+    border: 22px solid rgba(105, 95, 95, 0.8);
 }
 
 aside ul {
@@ -75,16 +89,7 @@ footer {
     text-align: center;
 }
 
-/* partial demo css */
-main {
-    counter-reset: my-counter;
-    inset: 3rem;
-}
-main > p::before {
-    counter-increment: my-counter; /* Increment the value of section counter by 1 */
-    content: "partial no: " counter(my-counter) ": "; /* Display counter value in default style (decimal) */
-    background-color: lightpink;
-}
+
 
 </style>
 
@@ -93,7 +98,7 @@ main > p::before {
 <!-- aside -->
 <aside>
 
-
+s
 
 </aside>
 <!-- / aside -->
