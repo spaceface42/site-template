@@ -5,14 +5,16 @@ class PromiseDom {
      */
     constructor(document = window.document) {
         this.document = document;
-        console.info('PromiseDom v1.0.0 initialized');
+        // console.info('PromiseDom v1.0.0 initialized');
         this.ready = new Promise((resolve, reject) => {
             try {
                 const state = this.document.readyState;
                 if (state === 'interactive' || state === 'complete') {
+                    // DOM is already ready
                     resolve();
                 }
                 else {
+                    // Wait for DOMContentLoaded event
                     const onDOMContentLoaded = () => {
                         resolve();
                         this.document.removeEventListener('DOMContentLoaded', onDOMContentLoaded);
