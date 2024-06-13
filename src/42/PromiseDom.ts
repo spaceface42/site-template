@@ -1,5 +1,5 @@
 /**
- * FetchPartial v1.0.1
+ * PromiseDom v1.0.1
  * 
  * PromiseDom class provides a promise that resolves when the DOM is ready.
  */
