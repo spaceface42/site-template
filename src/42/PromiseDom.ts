@@ -13,7 +13,7 @@ class PromiseDom {
      * @param document The document object to use. Default is window.document.
      */
     constructor(private document: Document = window.document) {
-        console.info('PromiseDom v1.0.0 initialized');
+        // console.info('PromiseDom v1.0.0 initialized');
         this.ready = new Promise<void>((resolve, reject) => {
             try {
                 const state: DocumentReadyState = this.document.readyState as DocumentReadyState;

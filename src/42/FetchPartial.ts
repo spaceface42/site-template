@@ -7,7 +7,7 @@ class FetchPartial {
     private readonly defaultSelector: string;
 
     constructor(defaultSelector: string = 'link[rel="html"]') {
-        console.info('FetchPartial v1.0.0 initialized');
+        // console.info('FetchPartial v1.0.0 initialized');
         this.defaultSelector = defaultSelector;
     }
 
