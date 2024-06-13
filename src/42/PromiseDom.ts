@@ -1,5 +1,5 @@
 /**
- * FetchPartial v1.0.0
+ * FetchPartial v1.0.1
  * 
  * PromiseDom class provides a promise that resolves when the DOM is ready.
  */
@@ -18,8 +18,10 @@ class PromiseDom {
             try {
                 const state: DocumentReadyState = this.document.readyState as DocumentReadyState;
                 if (state === 'interactive' || state === 'complete') {
+                    // DOM is already ready
                     resolve();
                 } else {
+                    // Wait for DOMContentLoaded event
                     const onDOMContentLoaded = () => {
                         resolve();
                         this.document.removeEventListener('DOMContentLoaded', onDOMContentLoaded);
