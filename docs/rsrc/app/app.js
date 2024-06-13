@@ -12,9 +12,12 @@ async function start() {
         await domReady.ready;
         console.log('app.start | DOM is fully loaded and parsed');
         // html message
-        const appElement = document.getElementById('app');
+        const appElement = document.getElementById('console42');
         if (appElement) {
-            appElement.innerHTML = '<h3>Welcome to version 1.0.0</h3>';
+            // appElement.innerHTML = '<h3>Welcome to version 1.0.0</h3>';
+            const h3 = document.createElement("h3");
+            h3.textContent = 'Welcome to version 1.0.0';
+            appElement === null || appElement === void 0 ? void 0 : appElement.appendChild(h3);
         }
         // html message
         // Create an instance of FetchPartial

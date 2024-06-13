@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="./rsrc/skin/reset.css" />
 
     <!-- demo css -->
+    <link rel="stylesheet" href="./rsrc/skin/tipo.css" />
     <link rel="stylesheet" href="./rsrc/template/main.css" />
     <link rel="stylesheet" href="./rsrc/skin/debug/debug.css" />
 
@@ -25,10 +26,19 @@
 
 
 
-<h1>hello world!</h1>
+<div id="console42">
+<style>
+  #console42 {
+    position: sticky;
+    top: 0;
+    left: 0;
+    max-height: max-content;
+    width: 100%;
+    padding: 2rem;
 
-<div id="app">
-
+    background-color: thistle;
+  }
+</style>
 </div>
 
 
@@ -39,24 +49,7 @@
     margin: 0;
   }
 
-/**
- *
- * typo
- *
- */
-@font-face { 
-  font-family: "ModernEraMono";
-  font-style: normal;
-  font-weight: 400;
-  src: url('/rsrc/spacesuit/fonts/ModernEraMono-Regular.woff2') format("woff2"),
-       url('/rsrc/spacesuit/fonts/ModernEraMono-Regular.ttf') format("truetype");
-}
 
-body {
-  font: normal normal 400 1rem/1.5 monospace;
-  font-family: ModernEraMono, Consolas, Arial, sans-serif;
-  background-color: var(--main-bg-color);
-}
 
 
 
@@ -108,7 +101,7 @@ body {
 
 <aside>
 
-
+aside
 
 </aside>
 
@@ -116,36 +109,12 @@ body {
 
 <main>
   <link rel="html" href="./rsrc/template/_fakepartial.html" />
-  <link rel="html" href="./rsrc/template/_fakepartial.html" />
-  <link rel="html" href="./rsrc/template/_fakepartial.html" />
-  <link rel="html" href="./rsrc/template/_fakepartial.html" />
-  <link rel="html" href="./rsrc/template/_fakepartial.html" />
-  <link rel="html" href="./rsrc/template/_fakepartial.html" />
-  <link rel="html" href="./rsrc/template/_fakepartial.html" />
-  <link rel="html" href="./rsrc/template/_fakepartial.html" />
-  <link rel="html" href="./rsrc/template/_fakepartial.html" />
-  <link rel="html" href="./rsrc/template/_fakepartial.html" />
-
-  <div>
-    <p>and the _404.html partial should be nonexistent</p>
-    <link rel="html" href="./rsrc/template/_404.html" />
-  </div>
-
-  <link rel="html" href="./rsrc/template/_fakepartial.html" />
-
-  <div>
-    <p>and the _404.html partial should be invalid</p>
-    <link rel="html" href="./rsrc/template/_realinvalid.html" />
-  </div>
-
-  <link rel="html" href="./rsrc/template/_fakepartial.html" />
 
   <div class="raw">
     <p>partial loaded from github raw</p>
     <link rel="html" href="https://raw.githubusercontent.com/spaceface42/_blackhole/main/_blackhole/index.html" />
   </div>
 
-  <link rel="html" href="./rsrc/template/_fakepartial.html" />
 </main>
 
 
