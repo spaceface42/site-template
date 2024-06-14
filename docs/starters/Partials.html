@@ -126,17 +126,34 @@ body {
   <link rel="html" href="../rsrc/template/_fakepartial.html" />
   <link rel="html" href="../rsrc/template/_fakepartial.html" />
 
-  <div>
-    <p>and the _404.html partial should be nonexistent</p>
-    <link rel="html" href="../rsrc/template/_404.html" />
-  </div>
 
-  <link rel="html" href="../rsrc/template/_fakepartial.html" />
+                        <div class="errors">
+                            <style>
+                                .errors {
+                                    display: block;
+                                    background-color: aliceblue;
+                                }
+                            </style>
+                        <p>errors</p>
 
-  <div>
-    <p>and the _404.html partial should be invalid</p>
-    <link rel="html" href="../rsrc/template/_realinvalid.html" />
-  </div>
+                        <div>
+                            <p>this partial has undefined href</p>
+                            <link rel="html" href="" />
+                        </div>
+
+                        <div>
+                            <p>and the _404.html partial should be nonexistent</p>
+                            <link rel="html" href="../rsrc/template/_404.html" />
+                        </div>
+
+                        <link rel="html" href="../rsrc/template/_fakepartial.html" />
+
+                        <div>
+                            <p>and the _404.html partial should be invalid</p>
+                            <link rel="html" href="../rsrc/template/_realinvalid.html" />
+                        </div>
+
+                            </div>
 
   <link rel="html" href="../rsrc/template/_fakepartial.html" />
 

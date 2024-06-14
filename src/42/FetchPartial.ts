@@ -1,5 +1,5 @@
 /**
- * FetchPartial v1.0.0
+ * FetchPartial v1.0.1
  * 
  * FetchPartial class provides methods to fetch and process partial HTML content.
  */
@@ -23,10 +23,7 @@ class FetchPartial {
         }
 
         try {
-            if (!url) {
-                url = element.getAttribute('href') || undefined;
-            }
-            if (!url) {
+            if (!url && !(url = element.getAttribute('href') || undefined)) {
                 console.error(`fetchOne: No URL provided for element:`, element);
                 return;
             }
