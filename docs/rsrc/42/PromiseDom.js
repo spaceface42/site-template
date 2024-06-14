@@ -33,9 +33,22 @@ class PromiseDom {
             }
             finally {
                 // Ensure the event listener is always removed
-                this.document.removeEventListener('DOMContentLoaded', onDOMContentLoaded);
+                // this.document.removeEventListener('DOMContentLoaded', onDOMContentLoaded);
+                this.cleanupListeners(onDOMContentLoaded);
             }
         });
+    }
+    /**
+     * Cleans up event listeners.
+     * @param listener The event listener function to remove.
+     */
+    cleanupListeners(listener) {
+        try {
+            this.document.removeEventListener('DOMContentLoaded', listener);
+        }
+        catch (error) {
+            console.error('Error cleaning up listeners:', error);
+        }
     }
 }
 export default PromiseDom;

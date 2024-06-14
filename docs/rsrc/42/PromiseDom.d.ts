@@ -11,5 +11,10 @@ declare class PromiseDom {
      * @returns A promise that resolves when the DOM is ready.
      */
     private initPromise;
+    /**
+     * Cleans up event listeners.
+     * @param listener The event listener function to remove.
+     */
+    private cleanupListeners;
 }
 export default PromiseDom;
