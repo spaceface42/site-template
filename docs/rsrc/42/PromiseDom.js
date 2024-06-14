@@ -5,8 +5,17 @@ class PromiseDom {
      */
     constructor(document = window.document) {
         this.document = document;
-        // console.info('PromiseDom v1.0.0 initialized');
-        this.ready = new Promise((resolve, reject) => {
+        this.ready = this.initPromise();
+    }
+    /**
+     * Initializes the promise that resolves when the DOM is ready.
+     * @returns A promise that resolves when the DOM is ready.
+     */
+    initPromise() {
+        return new Promise((resolve, reject) => {
+            const onDOMContentLoaded = () => {
+                resolve();
+            };
             try {
                 const state = this.document.readyState;
                 if (state === 'interactive' || state === 'complete') {
@@ -15,16 +24,16 @@ class PromiseDom {
                 }
                 else {
                     // Wait for DOMContentLoaded event
-                    const onDOMContentLoaded = () => {
-                        resolve();
-                        this.document.removeEventListener('DOMContentLoaded', onDOMContentLoaded);
-                    };
                     this.document.addEventListener('DOMContentLoaded', onDOMContentLoaded, false);
                 }
             }
             catch (error) {
                 console.error('Error initializing PromiseDom:', error);
                 reject(error);
+            }
+            finally {
+                // Ensure the event listener is always removed
+                this.document.removeEventListener('DOMContentLoaded', onDOMContentLoaded);
             }
         });
     }
