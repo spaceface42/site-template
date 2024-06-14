@@ -1,5 +1,5 @@
 /**
- * FetchPartial v1.0.1
+ * FetchPartial v1.1.0
  * 
  * FetchPartial class provides methods to fetch and process partial HTML content.
  */
@@ -7,7 +7,6 @@ class FetchPartial {
     private readonly defaultSelector: string;
 
     constructor(defaultSelector: string = 'link[rel="html"]') {
-        // console.info('FetchPartial v1.0.0 initialized');
         this.defaultSelector = defaultSelector;
     }
 
@@ -23,7 +22,8 @@ class FetchPartial {
         }
 
         try {
-            if (!url && !(url = element.getAttribute('href') || undefined)) {
+            url = this.getUrl(url, element);
+            if (!url) {
                 console.error(`fetchOne: No URL provided for element:`, element);
                 return;
             }
@@ -39,10 +39,10 @@ class FetchPartial {
      */
     async fetchAll(selector: string = this.defaultSelector): Promise<void> {
         try {
-            const partials: NodeListOf<Element> = document.querySelectorAll(selector);
+            const partials = document.querySelectorAll(selector);
 
             await Promise.allSettled(Array.from(partials).map(async (partial) => {
-                const url = partial.getAttribute('href');
+                const url = this.getUrl(undefined, partial);
                 if (!url) {
                     console.error('fetchAll: No URL provided for element:', partial);
                     return;
@@ -55,11 +55,21 @@ class FetchPartial {
     }
 
     /**
+     * Extracts URL from the provided argument or element's attribute.
+     * @param url The URL passed as argument.
+     * @param element The element from which to extract the URL.
+     * @returns The extracted URL or undefined.
+     */
+    private getUrl(url?: string, element?: Element): string | undefined {
+        return url ?? element?.getAttribute('href') ?? undefined;
+    }
+
+    /**
      * Makes a fetch request to the provided URL and returns the response text.
      * @param url The URL to fetch.
      * @returns A promise that resolves with the response text.
      */
-    async makeRequest(url: string): Promise<string> {
+    private async makeRequest(url: string): Promise<string> {
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`makeRequest: Failed to fetch partial from ${url} - ${response.statusText}`);
@@ -72,7 +82,7 @@ class FetchPartial {
      * @param response The response HTML.
      * @param element The element to update with the response HTML.
      */
-    async processRequest(response: string, element: Element): Promise<void> {
+    private async processRequest(response: string, element: Element): Promise<void> {
         const template = document.createElement('template');
         template.innerHTML = response.trim();
         const htmlPartial = template.content.cloneNode(true) as DocumentFragment;
@@ -88,7 +98,7 @@ class FetchPartial {
      * @param url The URL of the partial HTML content.
      * @param element The element to update with the fetched content.
      */
-    async fetch(url: string, element: Element): Promise<void> {
+    private async fetch(url: string, element: Element): Promise<void> {
         try {
             const response = await this.makeRequest(url);
             await this.processRequest(response, element);

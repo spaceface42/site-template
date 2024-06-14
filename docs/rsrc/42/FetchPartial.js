@@ -1,11 +1,10 @@
 /**
- * FetchPartial v1.0.1
+ * FetchPartial v1.1.0
  *
  * FetchPartial class provides methods to fetch and process partial HTML content.
  */
 class FetchPartial {
     constructor(defaultSelector = 'link[rel="html"]') {
-        // console.info('FetchPartial v1.0.0 initialized');
         this.defaultSelector = defaultSelector;
     }
     /**
@@ -19,7 +18,8 @@ class FetchPartial {
             return;
         }
         try {
-            if (!url && !(url = element.getAttribute('href') || undefined)) {
+            url = this.getUrl(url, element);
+            if (!url) {
                 console.error(`fetchOne: No URL provided for element:`, element);
                 return;
             }
@@ -37,7 +37,7 @@ class FetchPartial {
         try {
             const partials = document.querySelectorAll(selector);
             await Promise.allSettled(Array.from(partials).map(async (partial) => {
-                const url = partial.getAttribute('href');
+                const url = this.getUrl(undefined, partial);
                 if (!url) {
                     console.error('fetchAll: No URL provided for element:', partial);
                     return;
@@ -48,6 +48,16 @@ class FetchPartial {
         catch (error) {
             console.error('fetchAll: Error fetching all partials:', error);
         }
+    }
+    /**
+     * Extracts URL from the provided argument or element's attribute.
+     * @param url The URL passed as argument.
+     * @param element The element from which to extract the URL.
+     * @returns The extracted URL or undefined.
+     */
+    getUrl(url, element) {
+        var _a;
+        return (_a = url !== null && url !== void 0 ? url : element === null || element === void 0 ? void 0 : element.getAttribute('href')) !== null && _a !== void 0 ? _a : undefined;
     }
     /**
      * Makes a fetch request to the provided URL and returns the response text.
