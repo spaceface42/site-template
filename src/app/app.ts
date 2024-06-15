@@ -7,7 +7,7 @@
 import PromiseDom from '../42/PromiseDom.js';
 import FetchPartial from '../42/FetchPartial.js';
 
-async function launch() {
+async function start() {
     // Instantiate PromiseDom
     const domReady = new PromiseDom();
     
@@ -26,9 +26,9 @@ async function launch() {
         }
 
         // Fetch and process all partial HTML content
-        const fetchPartial = new FetchPartial();
-        await fetchPartial.fetchAll();
-        console.log('app.start | All partial HTML content fetched and processed');
+        const htmlPartial = new FetchPartial();
+        await htmlPartial.fetchPartials();
+        console.log('app.start | All HTML partials fetched and processed');
 
     } catch (error) {
         console.error('app.start | Error during initialization:', error);
@@ -36,4 +36,4 @@ async function launch() {
 }
 
 // Start the script
-launch();
+start();

@@ -15,21 +15,21 @@ class FetchPartial {
      * @param url The URL of the partial HTML content.
      * @param element The element to update with the fetched content.
      */
-    async fetchOne(url?: string, element?: Element): Promise<void> {
+    async fetchPartial(url?: string, element?: Element): Promise<void> {
         if (!element) {
-            console.error('fetchOne: No element provided');
+            console.error('fetchPartial: No element provided');
             return;
         }
 
         try {
             url = this.getUrl(url, element);
             if (!url) {
-                console.error(`fetchOne: No URL provided for element:`, element);
+                console.error(`fetchPartial: No URL provided for element:`, element);
                 return;
             }
-            await this.fetch(url, element);
+            await this.fetchAndProcessPartial(url, element);
         } catch (error) {
-            console.error(`fetchOne: Error fetching partial for element:`, element, error);
+            console.error(`fetchPartial: Error fetching partial for element:`, element, error);
         }
     }
 
@@ -37,20 +37,20 @@ class FetchPartial {
      * Fetches all partial HTML content matching the provided selector and updates each element with the response.
      * @param selector The CSS selector to query for partial HTML content elements.
      */
-    async fetchAll(selector: string = this.defaultSelector): Promise<void> {
+    async fetchPartials(selector: string = this.defaultSelector): Promise<void> {
         try {
             const partials = document.querySelectorAll(selector);
 
             await Promise.allSettled(Array.from(partials).map(async (partial) => {
                 const url = this.getUrl(undefined, partial);
                 if (!url) {
-                    console.error('fetchAll: No URL provided for element:', partial);
+                    console.error('fetchPartials: No URL provided for element:', partial);
                     return;
                 }
-                await this.fetch(url, partial);
+                await this.fetchAndProcessPartial(url, partial);
             }));
         } catch (error) {
-            console.error('fetchAll: Error fetching all partials:', error);
+            console.error('fetchPartials: Error fetching all partials:', error);
         }
     }
 
@@ -69,10 +69,10 @@ class FetchPartial {
      * @param url The URL to fetch.
      * @returns A promise that resolves with the response text.
      */
-    private async makeRequest(url: string): Promise<string> {
+    private async makeFetchRequest(url: string): Promise<string> {
         const response = await fetch(url);
         if (!response.ok) {
-            throw new Error(`makeRequest: Failed to fetch partial from ${url} - ${response.statusText}`);
+            throw new Error(`makeFetchRequest: Failed to fetch partial from ${url} - ${response.statusText}`);
         }
         return response.text();
     }
@@ -82,14 +82,14 @@ class FetchPartial {
      * @param response The response HTML.
      * @param element The element to update with the response HTML.
      */
-    private async processRequest(response: string, element: Element): Promise<void> {
+    private async processFetchedContent(response: string, element: Element): Promise<void> {
         const template = document.createElement('template');
         template.innerHTML = response.trim();
         const htmlPartial = template.content.cloneNode(true) as DocumentFragment;
         if (htmlPartial && htmlPartial.childElementCount > 0) {
             element.replaceWith(htmlPartial);
         } else {
-            console.error('processRequest: Fetched content is empty or invalid for element:', element);
+            console.error('processFetchedContent: Fetched content is empty or invalid for element:', element);
         }
     }
 
@@ -98,12 +98,12 @@ class FetchPartial {
      * @param url The URL of the partial HTML content.
      * @param element The element to update with the fetched content.
      */
-    private async fetch(url: string, element: Element): Promise<void> {
+    private async fetchAndProcessPartial(url: string, element: Element): Promise<void> {
         try {
-            const response = await this.makeRequest(url);
-            await this.processRequest(response, element);
+            const response = await this.makeFetchRequest(url);
+            await this.processFetchedContent(response, element);
         } catch (error) {
-            console.error(`fetch: Error fetching partial for element:`, element, error);
+            console.error(`fetchAndProcessPartial: Error fetching partial for element:`, element, error);
         }
     }
 }
