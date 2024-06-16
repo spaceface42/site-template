@@ -19,6 +19,7 @@ class PromiseDom {
     /**
      * Initializes the promise that resolves when the DOM is ready.
      * @returns A promise that resolves when the DOM is ready.
+     * Ensure (with finally) the event listener is always removed
      */
     private initPromise(): Promise<void> {
         return new Promise<void>((resolve, reject) => {
@@ -39,8 +40,6 @@ class PromiseDom {
                 console.error('Error initializing PromiseDom:', error);
                 reject(error);
             } finally {
-                // Ensure the event listener is always removed
-                // this.document.removeEventListener('DOMContentLoaded', onDOMContentLoaded);
                 this.cleanupListeners(onDOMContentLoaded);
             }
         });
