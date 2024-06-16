@@ -1,5 +1,5 @@
 /**
- * FetchPartial v1.1.0
+ * FetchPartial v1.2.0
  * 
  * FetchPartial class provides methods to fetch and process partial HTML content.
  */
@@ -82,7 +82,7 @@ class FetchPartial {
      * @param response The response HTML.
      * @param element The element to update with the response HTML.
      */
-    private async processFetchedContent(response: string, element: Element): Promise<void> {
+    private async replaceFetchedContent(response: string, element: Element): Promise<void> {
         const template = document.createElement('template');
         template.innerHTML = response.trim();
         const htmlPartial = template.content.cloneNode(true) as DocumentFragment;
@@ -94,6 +94,21 @@ class FetchPartial {
     }
 
     /**
+     * Processes the fetched response and updates the provided element with the response HTML.
+     * @param response The response HTML.
+     * @param element The element to update with the response HTML.
+     */
+    private async insertFetchedContent(response: string, element: Element): Promise<void> {
+        try {
+            element.insertAdjacentHTML('beforebegin', response.trim());
+            element.remove();
+        } catch (error) {
+            console.error('insertFetchedContent: Error inserting fetched content:', error);
+        }
+    }
+
+
+    /**
      * Fetches partial HTML content from the provided URL and updates the provided element with the response.
      * @param url The URL of the partial HTML content.
      * @param element The element to update with the fetched content.
@@ -101,7 +116,8 @@ class FetchPartial {
     private async fetchAndProcessPartial(url: string, element: Element): Promise<void> {
         try {
             const response = await this.makeFetchRequest(url);
-            await this.processFetchedContent(response, element);
+            await this.replaceFetchedContent(response, element);
+            // await this.insertFetchedContent(response, element);
         } catch (error) {
             console.error(`fetchAndProcessPartial: Error fetching partial for element:`, element, error);
         }

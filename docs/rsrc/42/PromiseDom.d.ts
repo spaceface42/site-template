@@ -9,6 +9,7 @@ declare class PromiseDom {
     /**
      * Initializes the promise that resolves when the DOM is ready.
      * @returns A promise that resolves when the DOM is ready.
+     * Ensure (with finally) the event listener is always removed
      */
     private initPromise;
     /**
