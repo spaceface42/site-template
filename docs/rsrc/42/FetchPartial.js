@@ -1,5 +1,5 @@
 /**
- * FetchPartial v1.2.0
+ * FetchPartial v1.3.0
  *
  * FetchPartial class provides methods to fetch and process partial HTML content.
  */
@@ -72,33 +72,42 @@ class FetchPartial {
         return response.text();
     }
     /**
-     * Processes the fetched response and updates the provided element with the response HTML.
-     * @param response The response HTML.
-     * @param element The element to update with the response HTML.
+     * Checks if the given URL is of the same origin as the current document.
+     * @param url The URL to check.
+     * @returns True if the URL is same-origin, false otherwise.
      */
-    async replaceFetchedContent(response, element) {
-        const template = document.createElement('template');
-        template.innerHTML = response.trim();
-        const htmlPartial = template.content.cloneNode(true);
-        if (htmlPartial && htmlPartial.childElementCount > 0) {
-            element.replaceWith(htmlPartial);
-        }
-        else {
-            console.error('processFetchedContent: Fetched content is empty or invalid for element:', element);
-        }
+    isSameOrigin(url) {
+        const locationOrigin = window.location.origin;
+        const urlOrigin = new URL(url, locationOrigin).origin;
+        return locationOrigin === urlOrigin;
     }
     /**
      * Processes the fetched response and updates the provided element with the response HTML.
      * @param response The response HTML.
      * @param element The element to update with the response HTML.
+     * @param url The URL from which the content was fetched.
      */
-    async insertFetchedContent(response, element) {
+    async processFetchedContent(response, element, url) {
         try {
-            element.insertAdjacentHTML('beforebegin', response.trim());
-            element.remove();
+            if (this.isSameOrigin(url)) {
+                element.insertAdjacentHTML('beforebegin', response.trim());
+                element.remove();
+                return;
+            }
+            // if {
+            const template = document.createElement('template');
+            template.innerHTML = response.trim();
+            const htmlPartial = template.content.cloneNode(true);
+            if (htmlPartial && htmlPartial.childElementCount > 0) {
+                element.replaceWith(htmlPartial);
+            }
+            else {
+                console.error('processFetchedContent: Fetched content is empty or invalid for element:', element);
+            }
+            //}
         }
         catch (error) {
-            console.error('insertFetchedContent: Error inserting fetched content:', error);
+            console.error('processFetchedContent: Error inserting fetched content:', error);
         }
     }
     /**
@@ -109,8 +118,7 @@ class FetchPartial {
     async fetchAndProcessPartial(url, element) {
         try {
             const response = await this.makeFetchRequest(url);
-            await this.replaceFetchedContent(response, element);
-            // await this.insertFetchedContent(response, element);
+            await this.processFetchedContent(response, element, url);
         }
         catch (error) {
             console.error(`fetchAndProcessPartial: Error fetching partial for element:`, element, error);

@@ -1,5 +1,5 @@
 /**
- * FetchPartial v1.3.0
+ * FetchPartial v1.2.0
  *
  * FetchPartial class provides methods to fetch and process partial HTML content.
  */
@@ -31,6 +31,13 @@ declare class FetchPartial {
      */
     private makeFetchRequest;
     /**
+     * Processes the fetched response and updates the provided element with the response HTML.
+     * @param response The response HTML.
+     * @param element The element to update with the response HTML.
+     * @param url The URL from which the content was fetched.
+     */
+    private processFetchedContent;
+    /**
      * Checks if the given URL is of the same origin as the current document.
      * @param url The URL to check.
      * @returns True if the URL is same-origin, false otherwise.
@@ -40,9 +47,14 @@ declare class FetchPartial {
      * Processes the fetched response and updates the provided element with the response HTML.
      * @param response The response HTML.
      * @param element The element to update with the response HTML.
-     * @param url The URL from which the content was fetched.
      */
-    private processFetchedContent;
+    private replaceFetchedContent;
+    /**
+     * Processes the fetched response and updates the provided element with the response HTML.
+     * @param response The response HTML.
+     * @param element The element to update with the response HTML.
+     */
+    private insertFetchedContent;
     /**
      * Fetches partial HTML content from the provided URL and updates the provided element with the response.
      * @param url The URL of the partial HTML content.
