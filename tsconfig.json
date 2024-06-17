@@ -43,7 +43,7 @@
     "pretty": true,
     "declaration": true,
     "importHelpers": false,
-    "downlevelIteration": true,
+    "downlevelIteration": false,
 
     // "composite": false,
   },
