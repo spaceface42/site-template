@@ -23,6 +23,7 @@ class FetchPartial {
      * @param element The element to update with the fetched content.
      */
     async fetchPartial(url?: string, element?: Element): Promise<void> {
+
         if (!element) {
             console.error('fetchPartial: No element provided');
             return;
@@ -39,6 +40,7 @@ class FetchPartial {
         } catch (error) {
             console.error('fetchPartial: Error fetching partial for element:', element, error);
         }
+
     }
 
     /**
@@ -46,6 +48,7 @@ class FetchPartial {
      * @param selector The CSS selector to query for partial HTML content elements.
      */
     async fetchAllPartials(selector: string = this.defaultSelector): Promise<void> {
+
         const partials = document.querySelectorAll(selector);
 
         try {
@@ -62,6 +65,7 @@ class FetchPartial {
         } catch (error) {
             console.error('fetchAllPartials: Error fetching all partials:', error);
         }
+
     }
 
     /**
@@ -80,11 +84,14 @@ class FetchPartial {
      * @returns A promise that resolves with the response text.
      */
     private async makeFetchRequest(url: string): Promise<string> {
+
         const response = await fetch(url);
+
         if (!response.ok) {
             throw new Error(`makeFetchRequest: Failed to fetch partial from ${url} - ${response.statusText}`);
         }
         return response.text();
+
     }
 
     /**
@@ -105,11 +112,13 @@ class FetchPartial {
      * @param url The URL from which the content was fetched.
      */
     private async processFetchedContent(response: string, element: Element, url: string): Promise<void> {
+
         if (this.isSameOrigin(url)) {
             this.insertPartial(response, element);
         } else {
             this.processPartial(response, element);
         }
+
     }
 
     /**
@@ -118,12 +127,14 @@ class FetchPartial {
      * @param element The element to update with the response HTML.
      */
     private insertPartial(response: string, element: Element): void {
+
         try {
             element.insertAdjacentHTML('beforebegin', response.trim());
             element.remove();
         } catch (error) {
             console.error('insertPartial: Error inserting HTML:', error);
         }
+
     }
 
     /**
@@ -132,10 +143,12 @@ class FetchPartial {
      * @param element The element to update with the response HTML.
      */
     private processPartial(response: string, element: Element): void {
+
         try {
             const template = document.createElement('template');
             template.innerHTML = response.trim();
             const htmlPartial = template.content.cloneNode(true) as DocumentFragment;
+
             if (htmlPartial && htmlPartial.childElementCount > 0) {
                 element.replaceWith(htmlPartial);
             } else {
@@ -144,6 +157,7 @@ class FetchPartial {
         } catch (error) {
             console.error('processPartial: Error processing HTML:', error);
         }
+
     }
 
     /**
@@ -152,13 +166,16 @@ class FetchPartial {
      * @param element The element to update with the fetched content.
      */
     private async fetchAndProcessPartial(url: string, element: Element): Promise<void> {
+
         try {
             const response = await this.makeFetchRequest(url);
             await this.processFetchedContent(response, element, url);
         } catch (error) {
             console.error('fetchAndProcessPartial: Error fetching partial for element:', element, error);
         }
+
     }
+    
 }
 
 export default FetchPartial;
