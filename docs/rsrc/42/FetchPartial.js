@@ -26,14 +26,14 @@ class FetchPartial {
         }
         url = this.getUrl(url, element);
         if (!url) {
-            console.error(`fetchPartial: No URL provided for element:`, element);
+            console.error('fetchPartial: No URL provided for element:', element);
             return;
         }
         try {
             await this.fetchAndProcessPartial(url, element);
         }
         catch (error) {
-            console.error(`fetchPartial: Error fetching partial for element:`, element, error);
+            console.error('fetchPartial: Error fetching partial for element:', element, error);
         }
     }
     /**
@@ -46,14 +46,14 @@ class FetchPartial {
             await Promise.allSettled(Array.from(partials).map(async (partial) => {
                 const url = this.getUrl(undefined, partial);
                 if (!url) {
-                    console.error('fetchPartials: No URL provided for element:', partial);
+                    console.error('fetchAllPartials: No URL provided for element:', partial);
                     return;
                 }
                 await this.fetchAndProcessPartial(url, partial);
             }));
         }
         catch (error) {
-            console.error('fetchPartials: Error fetching all partials:', error);
+            console.error('fetchAllPartials: Error fetching all partials:', error);
         }
     }
     /**
@@ -148,7 +148,7 @@ class FetchPartial {
             await this.processFetchedContent(response, element, url);
         }
         catch (error) {
-            console.error(`fetchAndProcessPartial: Error fetching partial for element:`, element, error);
+            console.error('fetchAndProcessPartial: Error fetching partial for element:', element, error);
         }
     }
 }
