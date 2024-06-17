@@ -1,5 +1,5 @@
 /**
- * FetchPartial v1.4.1
+ * FetchPartial v1.4.2
  *
  * The FetchPartial class provides methods to fetch and process partial HTML content.
  * This class can fetch content from URLs and update the DOM elements with the fetched content.
