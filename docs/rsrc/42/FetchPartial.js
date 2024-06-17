@@ -1,5 +1,5 @@
 /**
- * FetchPartial v1.3.0
+ * FetchPartial v1.4.0
  *
  * FetchPartial class provides methods to fetch and process partial HTML content.
  */
@@ -90,11 +90,37 @@ class FetchPartial {
     async processFetchedContent(response, element, url) {
         try {
             if (this.isSameOrigin(url)) {
-                element.insertAdjacentHTML('beforebegin', response.trim());
-                element.remove();
-                return;
+                this.insertPartial(response, element);
             }
-            // if {
+            else {
+                this.processPartial(response, element);
+            }
+        }
+        catch (error) {
+            console.error('processFetchedContent: Error inserting fetched content:', error);
+        }
+    }
+    /**
+     * Inserts the response HTML into the provided element using insertAdjacentHTML.
+     * @param response The response HTML.
+     * @param element The element to update with the response HTML.
+     */
+    insertPartial(response, element) {
+        try {
+            element.insertAdjacentHTML('beforebegin', response.trim());
+            element.remove();
+        }
+        catch (error) {
+            console.error('insertPartial: Error inserting HTML:', error);
+        }
+    }
+    /**
+     * Processes the response HTML using a template element and updates the provided element.
+     * @param response The response HTML.
+     * @param element The element to update with the response HTML.
+     */
+    processPartial(response, element) {
+        try {
             const template = document.createElement('template');
             template.innerHTML = response.trim();
             const htmlPartial = template.content.cloneNode(true);
@@ -102,12 +128,11 @@ class FetchPartial {
                 element.replaceWith(htmlPartial);
             }
             else {
-                console.error('processFetchedContent: Fetched content is empty or invalid for element:', element);
+                console.error('processPartial: Fetched content is empty or invalid for element:', element);
             }
-            //}
         }
         catch (error) {
-            console.error('processFetchedContent: Error inserting fetched content:', error);
+            console.error('processPartial: Error processing HTML:', error);
         }
     }
     /**

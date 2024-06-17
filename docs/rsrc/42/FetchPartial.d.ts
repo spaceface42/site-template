@@ -1,5 +1,5 @@
 /**
- * FetchPartial v1.3.0
+ * FetchPartial v1.4.0
  *
  * FetchPartial class provides methods to fetch and process partial HTML content.
  */
@@ -43,6 +43,18 @@ declare class FetchPartial {
      * @param url The URL from which the content was fetched.
      */
     private processFetchedContent;
+    /**
+     * Inserts the response HTML into the provided element using insertAdjacentHTML.
+     * @param response The response HTML.
+     * @param element The element to update with the response HTML.
+     */
+    private insertPartial;
+    /**
+     * Processes the response HTML using a template element and updates the provided element.
+     * @param response The response HTML.
+     * @param element The element to update with the response HTML.
+     */
+    private processPartial;
     /**
      * Fetches partial HTML content from the provided URL and updates the provided element with the response.
      * @param url The URL of the partial HTML content.
