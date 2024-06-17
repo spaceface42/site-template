@@ -24,12 +24,12 @@ class FetchPartial {
             console.error('fetchPartial: No element provided');
             return;
         }
+        url = this.getUrl(url, element);
+        if (!url) {
+            console.error(`fetchPartial: No URL provided for element:`, element);
+            return;
+        }
         try {
-            url = this.getUrl(url, element);
-            if (!url) {
-                console.error(`fetchPartial: No URL provided for element:`, element);
-                return;
-            }
             await this.fetchAndProcessPartial(url, element);
         }
         catch (error) {
@@ -41,8 +41,8 @@ class FetchPartial {
      * @param selector The CSS selector to query for partial HTML content elements.
      */
     async fetchAllPartials(selector = this.defaultSelector) {
+        const partials = document.querySelectorAll(selector);
         try {
-            const partials = document.querySelectorAll(selector);
             await Promise.allSettled(Array.from(partials).map(async (partial) => {
                 const url = this.getUrl(undefined, partial);
                 if (!url) {
@@ -95,16 +95,11 @@ class FetchPartial {
      * @param url The URL from which the content was fetched.
      */
     async processFetchedContent(response, element, url) {
-        try {
-            if (this.isSameOrigin(url)) {
-                this.insertPartial(response, element);
-            }
-            else {
-                this.processPartial(response, element);
-            }
+        if (this.isSameOrigin(url)) {
+            this.insertPartial(response, element);
         }
-        catch (error) {
-            console.error('processFetchedContent: Error inserting fetched content:', error);
+        else {
+            this.processPartial(response, element);
         }
     }
     /**
