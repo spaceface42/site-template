@@ -26,9 +26,15 @@ async function start() {
             appElement.appendChild(h3);
         }
 
+
+
+        
         // Initialize the SimpleRouter
         const router = new SimpleRouter('#main-content');
         console.log('app.start | SimpleRouter initialized');
+
+
+
 
         // Fetch and process all partial HTML content
         const htmlPartial = new FetchPartial();

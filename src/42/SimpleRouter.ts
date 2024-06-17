@@ -6,6 +6,7 @@
 import FetchPartial from './FetchPartial.js';
 import PromiseDom from './PromiseDom.js';
 
+
 class SimpleRouter {
     private fetchPartial: FetchPartial;
     private readonly mainElement: HTMLElement;
