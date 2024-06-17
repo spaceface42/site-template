@@ -1,5 +1,5 @@
 /**
- * FetchPartial v1.4.0
+ * FetchPartial v1.4.1
  * 
  * FetchPartial class provides methods to fetch and process partial HTML content.
  */
@@ -37,7 +37,7 @@ class FetchPartial {
      * Fetches all partial HTML content matching the provided selector and updates each element with the response.
      * @param selector The CSS selector to query for partial HTML content elements.
      */
-    async fetchPartials(selector: string = this.defaultSelector): Promise<void> {
+    async fetchAllPartials(selector: string = this.defaultSelector): Promise<void> {
         try {
             const partials = document.querySelectorAll(selector);
 

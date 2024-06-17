@@ -1,5 +1,5 @@
 /**
- * FetchPartial v1.4.0
+ * FetchPartial v1.4.1
  *
  * FetchPartial class provides methods to fetch and process partial HTML content.
  */
@@ -16,7 +16,7 @@ declare class FetchPartial {
      * Fetches all partial HTML content matching the provided selector and updates each element with the response.
      * @param selector The CSS selector to query for partial HTML content elements.
      */
-    fetchPartials(selector?: string): Promise<void>;
+    fetchAllPartials(selector?: string): Promise<void>;
     /**
      * Extracts URL from the provided argument or element's attribute.
      * @param url The URL passed as argument.

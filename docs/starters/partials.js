@@ -20,7 +20,7 @@ async function start() {
         // Create an instance of FetchPartial
         const htmlPartial = new FetchPartial();
         // Fetch and process all partial HTML content
-        await htmlPartial.fetchPartials();
+        await htmlPartial.fetchAllPartials();
         console.log('app.start | All partial HTML content fetched and processed');
     }
     catch (error) {

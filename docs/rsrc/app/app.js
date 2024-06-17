@@ -21,7 +21,7 @@ async function start() {
         }
         // Fetch and process all partial HTML content
         const htmlPartial = new FetchPartial();
-        await htmlPartial.fetchPartials();
+        await htmlPartial.fetchAllPartials();
         console.log('app.start | All HTML partials fetched and processed');
     }
     catch (error) {
