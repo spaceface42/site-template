@@ -1,11 +1,18 @@
 /**
  * FetchPartial v1.4.1
  * 
- * FetchPartial class provides methods to fetch and process partial HTML content.
+ * The FetchPartial class provides methods to fetch and process partial HTML content.
+ * This class can fetch content from URLs and update the DOM elements with the fetched content.
+ * It includes methods for fetching a single partial, fetching all partials matching a selector,
+ * and handling the fetched content appropriately based on its origin.
  */
 class FetchPartial {
     private readonly defaultSelector: string;
 
+    /**
+     * Initializes a new instance of the FetchPartial class.
+     * @param defaultSelector - The default CSS selector used to find elements with partial HTML content. Defaults to 'link[rel="html"]'.
+     */
     constructor(defaultSelector: string = 'link[rel="html"]') {
         this.defaultSelector = defaultSelector;
     }
