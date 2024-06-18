@@ -5,7 +5,6 @@
  */
 
 import PromiseDom from '../42/PromiseDom.js';
-import SimpleRouter from '../42/SimpleRouter.js';
 import FetchPartial from '../42/FetchPartial.js';
 
 async function start() {
@@ -25,16 +24,6 @@ async function start() {
             h3.textContent = 'Welcome to version 1.0.0';
             appElement.appendChild(h3);
         }
-
-
-
-        
-        // Initialize the SimpleRouter
-        const router = new SimpleRouter('#main-content');
-        console.log('app.start | SimpleRouter initialized');
-
-
-
 
         // Fetch and process all partial HTML content
         const htmlPartial = new FetchPartial();
