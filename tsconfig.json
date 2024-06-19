@@ -40,9 +40,10 @@
     "noUnusedLocals": false,            // Report errors on unused local variables.
     "noUnusedParameters": true,         // Report errors on unused parameters in functions
 
+
     "pretty": true,
     "declaration": true,
-    "importHelpers": false,
+    "importHelpers": true,
     "downlevelIteration": false,
 
     // "composite": false,

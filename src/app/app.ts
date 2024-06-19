@@ -4,8 +4,11 @@
  * Initialization script for the application.
  */
 
-import PromiseDom from '../42/PromiseDom.js';
-import FetchPartial from '../42/FetchPartial.js';
+// import PromiseDom from '../42/PromiseDom.js';
+// import FetchPartial from '../42/FetchPartial.js';
+
+import PromiseDom from '../42/PromiseDom';
+import FetchPartial from '../42/FetchPartial';
 
 async function start() {
     // Instantiate PromiseDom
