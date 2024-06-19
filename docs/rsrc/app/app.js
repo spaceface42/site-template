@@ -16,7 +16,7 @@ async function start() {
         const appElement = document.getElementById('console42');
         if (appElement) {
             const h3 = document.createElement("h3");
-            h3.textContent = 'Welcome to version 1.0.0';
+            h3.textContent = 'Welcome to spaceface / spacesuit / version 1.0.1';
             appElement.appendChild(h3);
         }
         // Fetch and process all partial HTML content
