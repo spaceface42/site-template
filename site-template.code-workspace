@@ -4,10 +4,10 @@
             "path": "."
         },
         {
-            "path": "docs"
+            "path": "src"
         },
         {
-            "path": "src"
+            "path": "docs"
         }
     ],
     "settings": {
