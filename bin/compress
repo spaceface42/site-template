@@ -1,0 +1,3 @@
+#!/bin/bash
+
+lessc --compress ./docs/rsrc/skin/debug/debug.css ./docs/rsrc/skin/debug/debug.min.css 
