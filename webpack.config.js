@@ -6,7 +6,7 @@ module.exports = {
     filename: 'app-package.js', // Output bundle file
     path: path.resolve(__dirname, 'docs/rsrc/app')
   },
-  mode: 'development',
+  mode: 'production',
   resolve: {
     extensions: ['.ts', '.js']
   },
