@@ -21,7 +21,7 @@ async function start() {
         console.log('app.start | DOM is fully loaded and parsed, continuing...');
 
         // Manipulate DOM: Add welcome message
-        const appElement = document.getElementById('console42');
+        const appElement = document.getElementById('console');
 
         if (appElement) {
             const h3 = document.createElement("h3");

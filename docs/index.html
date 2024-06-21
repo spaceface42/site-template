@@ -32,25 +32,25 @@
 
 
 
-<div id="console42">
-<style>
-#console42 {
-    position: sticky;
-    max-height: max-content;
-    width: 100%;
-    padding: 2rem;
-    background-color: thistle;
-}
+<style id="debug">
+    body {
+        background-color: white;
+        padding: 6rem;
+    }
+    header {
+        background-color: antiquewhite;
+    }
 </style>
-</div>
-
-
 
 <style>
 html {
     padding: 1rem;
+    background-color: rgb(221, 244, 244);
 }
 
+header {
+    
+}
 
 main {
     display: flex;
@@ -58,49 +58,27 @@ main {
     gap: 1rem;
 }
 
-/* partial demo css */
-main {
-    counter-reset: my-counter;
-    inset: 3rem;
-}
-main > p::before {
-    counter-increment: my-counter; /* Increment the value of section counter by 1 */
-    content: "partial no: " counter(my-counter) ": "; /* Display counter value in default style (decimal) */
-    background-color: lightpink;
-}
-
 aside {
-    border: 22px solid rgba(105, 95, 95, 0.8);
-}
 
-aside ul {
-    list-style: none;
-}
-
-aside ul li {
-    padding: 0.3rem;
 }
 
 footer {
     bottom: 1rem;
-    width: 100%;
+    background-color: aqua;
 }
-
 </style>
+
+
+
+<header>
+    <link rel="html" href="./rsrc/ui/spacesuit/_header.html" />
+</header>
 
 
 
 <!-- aside -->
-<style>
-    aside {
-        background-color: aliceblue;
-        height: 1rem;
-    }
-</style>
 <aside>
-
-
-
+    <link rel="html" href="./rsrc/ui/spacesuit/_aside.html" />
 </aside>
 <!-- / aside -->
 
@@ -108,13 +86,9 @@ footer {
 
 <!-- main -->
 <main>
-    <link rel="html" href="./rsrc/template/_fakepartial.html" />
-    <link rel="html" href="./rsrc/template/_fakepartial.html" />
     <div class="raw">
-        <p>partial loaded from github raw</p>
         <link rel="html" href="https://raw.githubusercontent.com/spaceface42/_blackhole/main/_blackhole/index.html" />
     </div>
-    <link rel="html" href="./rsrc/template/_fakepartial.html" />
 </main>
 <!-- / main -->
 
@@ -122,10 +96,25 @@ footer {
 
 <!-- footer -->
 <footer>
-    <link rel="html" href="./rsrc/template/_footer.html" />
-    <link rel="html" href="./rsrc/template/_cookie.html" />
+    <link rel="html" href="./rsrc/ui/spacesuit/_footer.html" />
 </footer>
 <!-- / footer -->
+
+
+
+<div id="console">
+    <style>
+    #console {
+        position: fixed;
+        max-height: max-content;
+        max-width: content;
+        display: inline-flex;
+        padding: 2rem;
+        background-color: thistle;
+        bottom: 1rem;
+    }
+    </style>
+</div>
 
 
 
