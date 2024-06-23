@@ -4,8 +4,8 @@
  * Initialization script for the application.
  */
 // import .js file when working directly with modules in the browser
-// import PromiseDom from '../42/PromiseDom.js.js';
-// import FetchPartial from '../42/FetchPartial.js.js';
+// import PromiseDom from '../42/PromiseDom.js';
+// import FetchPartial from '../42/FetchPartial.js';
 import PromiseDom from '../42/PromiseDom.js';
 import FetchPartial from '../42/FetchPartial.js';
 async function start() {

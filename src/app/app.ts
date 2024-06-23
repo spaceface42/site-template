@@ -8,8 +8,8 @@
 // import PromiseDom from '../42/PromiseDom.js';
 // import FetchPartial from '../42/FetchPartial.js';
 
-import PromiseDom from '../42/PromiseDom';
-import FetchPartial from '../42/FetchPartial';
+import PromiseDom from '../42/PromiseDom.js';
+import FetchPartial from '../42/FetchPartial.js';
 
 async function start() {
     // Instantiate PromiseDom
