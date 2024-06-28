@@ -49,7 +49,7 @@ class PromiseDom {
      * Cleans up event listeners.
      * @param listener The event listener function to remove.
      */
-    private cleanupListeners(listener: EventListener): void {
+    private cleanupListeners(listener: EventListenerOrEventListenerObject): void {
         try {
             this.document.removeEventListener('DOMContentLoaded', listener);
         } catch (error) {
