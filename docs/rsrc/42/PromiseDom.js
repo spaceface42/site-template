@@ -10,30 +10,27 @@ class PromiseDom {
     /**
      * Initializes the promise that resolves when the DOM is ready.
      * @returns A promise that resolves when the DOM is ready.
-     * Ensure (with finally) the event listener is always removed
      */
     initPromise() {
         return new Promise((resolve, reject) => {
-            const onDOMContentLoaded = () => {
+            const state = this.document.readyState;
+            if (state === 'interactive' || state === 'complete') {
+                // DOM is already ready
                 resolve();
-            };
-            try {
-                const state = this.document.readyState;
-                if (state === 'interactive' || state === 'complete') {
-                    // DOM is already ready
+            }
+            else {
+                // Wait for DOMContentLoaded event
+                const onDOMContentLoaded = () => {
                     resolve();
-                }
-                else {
-                    // Wait for DOMContentLoaded event
+                    this.cleanupListeners(onDOMContentLoaded);
+                };
+                try {
                     this.document.addEventListener('DOMContentLoaded', onDOMContentLoaded, false);
                 }
-            }
-            catch (error) {
-                console.error('Error initializing PromiseDom:', error);
-                reject(error);
-            }
-            finally {
-                this.cleanupListeners(onDOMContentLoaded);
+                catch (error) {
+                    console.error('Error adding DOMContentLoaded listener:', error);
+                    reject(error);
+                }
             }
         });
     }
@@ -46,7 +43,7 @@ class PromiseDom {
             this.document.removeEventListener('DOMContentLoaded', listener);
         }
         catch (error) {
-            console.error('Error cleaning up listeners:', error);
+            console.error('Error removing DOMContentLoaded listener:', error);
         }
     }
 }

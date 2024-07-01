@@ -1,5 +1,5 @@
 /**
- * PromiseDom v1.1.0
+ * PromiseDom v1.1.2
  * 
  * PromiseDom class provides a promise that resolves when the DOM is ready.
  */
@@ -19,28 +19,26 @@ class PromiseDom {
     /**
      * Initializes the promise that resolves when the DOM is ready.
      * @returns A promise that resolves when the DOM is ready.
-     * Ensure (with finally) the event listener is always removed
      */
     private initPromise(): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            const onDOMContentLoaded = () => {
+            const state: DocumentReadyState = this.document.readyState as DocumentReadyState;
+            
+            if (state === 'interactive' || state === 'complete') {
+                // DOM is already ready
                 resolve();
-            };
-
-            try {
-                const state: DocumentReadyState = this.document.readyState as DocumentReadyState;
-                if (state === 'interactive' || state === 'complete') {
-                    // DOM is already ready
+            } else {
+                // Wait for DOMContentLoaded event
+                const onDOMContentLoaded = () => {
                     resolve();
-                } else {
-                    // Wait for DOMContentLoaded event
+                    this.cleanupListeners(onDOMContentLoaded);
+                };
+                try {
                     this.document.addEventListener('DOMContentLoaded', onDOMContentLoaded, false);
+                } catch (error) {
+                    console.error('Error adding DOMContentLoaded listener:', error);
+                    reject(error);
                 }
-            } catch (error) {
-                console.error('Error initializing PromiseDom:', error);
-                reject(error);
-            } finally {
-                this.cleanupListeners(onDOMContentLoaded);
             }
         });
     }
@@ -53,10 +51,9 @@ class PromiseDom {
         try {
             this.document.removeEventListener('DOMContentLoaded', listener);
         } catch (error) {
-            console.error('Error cleaning up listeners:', error);
+            console.error('Error removing DOMContentLoaded listener:', error);
         }
     }
-
 }
 
 export default PromiseDom;
