@@ -8,7 +8,7 @@
 // import FetchPartial from '../42/FetchPartial.js';
 import PromiseDom from '../42/PromiseDom.js';
 import FetchPartial from '../42/FetchPartial.js';
-async function start() {
+async function initialization() {
     // Instantiate PromiseDom
     const domReady = new PromiseDom();
     try {
@@ -22,6 +22,9 @@ async function start() {
             h3.textContent = 'Welcome to spaceface / spacesuit / version 1.0.1';
             appElement.appendChild(h3);
         }
+        else {
+            console.warn('app.start | Element with id "console" not found');
+        }
         // Fetch and process all partial HTML content
         const htmlPartial = new FetchPartial();
         await htmlPartial.fetchAllPartials();
@@ -31,6 +34,6 @@ async function start() {
         console.error('app.start | Error during initialization:', error);
     }
 }
-// Start the script
-start();
+// Call the start function to initiate the process
+initialization();
 //# sourceMappingURL=app.js.map
