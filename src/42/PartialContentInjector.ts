@@ -22,17 +22,24 @@ class PartialContentInjector {
     }
 
     private async injectPartial(url: string, element: Element): Promise<void> {
+        
         try {
             if (this.fetchPartial.isSameOrigin(url)) {
                 await this.injectSameOriginPartial(url, element);
-            } else if (this.isAllowedCrossOrigin(url)) {
-                await this.injectCrossOriginPartial(url, element);
-            } else {
-                throw new Error(`Cross-origin request not allowed for: ${url}`);
+                return; // Return early after handling same-origin case
             }
+        
+            if (this.isAllowedCrossOrigin(url)) {
+                await this.injectCrossOriginPartial(url, element);
+                return; // Return early after handling allowed cross-origin case
+            }
+        
+            // If neither condition is met, throw an error
+            throw new Error(`Cross-origin request not allowed for: ${url}`);
         } catch (error) {
             console.error(`Error injecting partial from ${url}:`, error);
         }
+        
     }
 
     private async injectSameOriginPartial(url: string, element: Element): Promise<void> {
@@ -52,7 +59,8 @@ class PartialContentInjector {
         return this.allowedCrossOriginDomains.includes(urlObject.hostname);
     }
 
-    private insertContent(content: string, element: Element): void {
+
+    private insertContentX(content: string, element: Element): void {
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = content.trim();
         
@@ -61,6 +69,25 @@ class PartialContentInjector {
         }
         element.remove();
     }
+
+    /**
+     * Inserts the response HTML into the provided element using insertAdjacentHTML.
+     * @param response The response HTML.
+     * @param element The element to update with the response HTML.
+     */
+    private insertContent(response: string, element: Element): void {
+        try {
+            element.insertAdjacentHTML('beforebegin', response.trim());
+            element.remove();
+        } catch (error) {
+            console.error('insertPartial: Error inserting HTML:', error);
+        }
+    }
+
+
+
+
+
 }
 
 export default PartialContentInjector;

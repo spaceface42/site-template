@@ -19,13 +19,14 @@ class PartialContentInjector {
         try {
             if (this.fetchPartial.isSameOrigin(url)) {
                 await this.injectSameOriginPartial(url, element);
+                return; // Return early after handling same-origin case
             }
-            else if (this.isAllowedCrossOrigin(url)) {
+            if (this.isAllowedCrossOrigin(url)) {
                 await this.injectCrossOriginPartial(url, element);
+                return; // Return early after handling allowed cross-origin case
             }
-            else {
-                throw new Error(`Cross-origin request not allowed for: ${url}`);
-            }
+            // If neither condition is met, throw an error
+            throw new Error(`Cross-origin request not allowed for: ${url}`);
         }
         catch (error) {
             console.error(`Error injecting partial from ${url}:`, error);
@@ -45,7 +46,7 @@ class PartialContentInjector {
         const urlObject = new URL(url);
         return this.allowedCrossOriginDomains.includes(urlObject.hostname);
     }
-    insertContent(content, element) {
+    insertContentX(content, element) {
         var _a;
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = content.trim();
@@ -53,6 +54,20 @@ class PartialContentInjector {
             (_a = element.parentNode) === null || _a === void 0 ? void 0 : _a.insertBefore(tempDiv.firstChild, element);
         }
         element.remove();
+    }
+    /**
+     * Inserts the response HTML into the provided element using insertAdjacentHTML.
+     * @param response The response HTML.
+     * @param element The element to update with the response HTML.
+     */
+    insertContent(response, element) {
+        try {
+            element.insertAdjacentHTML('beforebegin', response.trim());
+            element.remove();
+        }
+        catch (error) {
+            console.error('insertPartial: Error inserting HTML:', error);
+        }
     }
 }
 export default PartialContentInjector;
