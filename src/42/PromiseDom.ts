@@ -1,58 +1,58 @@
 /**
- * PromiseDom v1.1.2
+ * PromiseDom v1.1.3
  * 
  * PromiseDom class provides a promise that resolves when the DOM is ready.
  */
 type DocumentReadyState = 'loading' | 'interactive' | 'complete';
 
 class PromiseDom {
-    ready: Promise<void>;
+    readonly ready: Promise<void>;
 
     /**
      * Initializes PromiseDom instance.
      * @param document The document object to use. Default is window.document.
      */
-    constructor(private document: Document = window.document) {
-        this.ready = this.initPromise();
+    constructor(document: Document = window.document) {
+        this.ready = this.initPromise(document);
     }
 
     /**
      * Initializes the promise that resolves when the DOM is ready.
+     * @param document The document object to use.
      * @returns A promise that resolves when the DOM is ready.
      */
-    private initPromise(): Promise<void> {
-        return new Promise<void>((resolve, reject) => {
-            const state: DocumentReadyState = this.document.readyState as DocumentReadyState;
-            
-            if (state === 'interactive' || state === 'complete') {
+    private initPromise(document: Document): Promise<void> {
+        return new Promise<void>((resolve) => {
+            if (this.isDomReady(document.readyState)) {
                 // DOM is already ready
                 resolve();
             } else {
                 // Wait for DOMContentLoaded event
                 const onDOMContentLoaded = () => {
                     resolve();
-                    this.cleanupListeners(onDOMContentLoaded);
+                    this.cleanupListeners(document, onDOMContentLoaded);
                 };
-                try {
-                    this.document.addEventListener('DOMContentLoaded', onDOMContentLoaded, false);
-                } catch (error) {
-                    console.error('Error adding DOMContentLoaded listener:', error);
-                    reject(error);
-                }
+                document.addEventListener('DOMContentLoaded', onDOMContentLoaded, { once: true });
             }
         });
     }
 
     /**
+     * Checks if the DOM is ready based on the readyState.
+     * @param state The current readyState of the document.
+     * @returns True if the DOM is ready, false otherwise.
+     */
+    private isDomReady(state: string): state is 'interactive' | 'complete' {
+        return state === 'interactive' || state === 'complete';
+    }
+
+    /**
      * Cleans up event listeners.
+     * @param document The document object.
      * @param listener The event listener function to remove.
      */
-    private cleanupListeners(listener: EventListenerOrEventListenerObject): void {
-        try {
-            this.document.removeEventListener('DOMContentLoaded', listener);
-        } catch (error) {
-            console.error('Error removing DOMContentLoaded listener:', error);
-        }
+    private cleanupListeners(document: Document, listener: EventListenerOrEventListenerObject): void {
+        document.removeEventListener('DOMContentLoaded', listener);
     }
 }
 
