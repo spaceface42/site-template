@@ -4,11 +4,11 @@
  * fetch html partials
  */
 class PartialContentFetcher {
+    static readonly VERSION = '1.1.0';
     private readonly originUrl: URL;
-    readonly VERSION = '1.1.0';
 
     constructor(baseUrl: string = window.location.href) {
-        console.log('___PartialContentFetcher ', this.VERSION);
+        console.log('___PartialContentFetcher ', PartialContentFetcher.VERSION);
         this.originUrl = new URL(baseUrl);
     }
 

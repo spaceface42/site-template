@@ -4,8 +4,8 @@
  * fetch html partials
  */
 declare class PartialContentFetcher {
+    static readonly VERSION = "1.1.0";
     private readonly originUrl;
-    readonly VERSION = "1.1.0";
     constructor(baseUrl?: string);
     /**
      * Accept content only if it is text/html or text/plain

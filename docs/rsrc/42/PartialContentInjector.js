@@ -6,8 +6,7 @@
 import PartialContentFetcher from './PartialContentFetcher.js';
 class PartialContentInjector {
     constructor(allowedCrossOriginDomains = ['raw.githubusercontent.com'], baseUrl) {
-        this.VERSION = '1.0.1';
-        console.log('___PartialContentInjector ', this.VERSION);
+        console.log('___PartialContentInjector ', PartialContentInjector.VERSION);
         this.partialContentFetcher = new PartialContentFetcher(baseUrl);
         this.allowedCrossOriginDomains = allowedCrossOriginDomains;
     }
@@ -70,5 +69,6 @@ class PartialContentInjector {
         }
     }
 }
+PartialContentInjector.VERSION = '1.0.1';
 export default PartialContentInjector;
 //# sourceMappingURL=PartialContentInjector.js.map

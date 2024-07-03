@@ -6,12 +6,12 @@
 import PartialContentFetcher from './PartialContentFetcher.js';
 
 class PartialContentInjector {
+    static readonly VERSION = '1.0.1';
     private partialContentFetcher: PartialContentFetcher;
     private allowedCrossOriginDomains: string[];
-    readonly VERSION = '1.0.1';
 
     constructor(allowedCrossOriginDomains: string[] = ['raw.githubusercontent.com'], baseUrl?: string) {
-        console.log('___PartialContentInjector ', this.VERSION);
+        console.log('___PartialContentInjector ', PartialContentInjector.VERSION);
         this.partialContentFetcher = new PartialContentFetcher(baseUrl);
         this.allowedCrossOriginDomains = allowedCrossOriginDomains;
     }

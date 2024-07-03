@@ -5,8 +5,7 @@
  */
 class PartialContentFetcher {
     constructor(baseUrl = window.location.href) {
-        this.VERSION = '1.1.0';
-        console.log('___PartialContentFetcher ', this.VERSION);
+        console.log('___PartialContentFetcher ', PartialContentFetcher.VERSION);
         this.originUrl = new URL(baseUrl);
     }
     /**
@@ -52,5 +51,6 @@ class PartialContentFetcher {
         return validTypes.some(type => contentType.includes(type));
     }
 }
+PartialContentFetcher.VERSION = '1.1.0';
 export default PartialContentFetcher;
 //# sourceMappingURL=PartialContentFetcher.js.map

@@ -1,6 +1,6 @@
 declare class AsyncDomHandler {
+    static readonly VERSION = "1.2.0";
     readonly ready: Promise<void>;
-    readonly VERSION = "1.2.0";
     /**
      * Initializes PromiseDom instance.
      * @param document The document object to use. Default is window.document.

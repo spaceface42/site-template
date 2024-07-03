@@ -25,8 +25,8 @@ async function initializeApp() {
         await domReady.ready;
         console.log('DOM is now ready!');
 
+        await addWelcomeMessage();
         await demoAwait();
-
         await injectPartials(injector);
 
         console.log('Application initialized successfully');
@@ -37,7 +37,6 @@ async function initializeApp() {
 
 async function demoAwait() {
     setTimeout(function() {
-        await addWelcomeMessage();
         console.log("demoAwait demoAwait demoAwait");
       }, 5000);
 }

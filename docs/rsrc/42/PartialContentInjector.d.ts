@@ -1,7 +1,7 @@
 declare class PartialContentInjector {
+    static readonly VERSION = "1.0.1";
     private partialContentFetcher;
     private allowedCrossOriginDomains;
-    readonly VERSION = "1.0.1";
     constructor(allowedCrossOriginDomains?: string[], baseUrl?: string);
     injectAllPartials(selector?: string): Promise<void>;
     private injectPartial;
