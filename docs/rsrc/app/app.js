@@ -3,13 +3,13 @@
  *
  * Initialization script for the application.
  */
-import { ALLOWED_DOMAINS } from './config.js';
 import DocumentReadyHandler from '../42/DocumentReadyHandler.js';
 import PartialContentInjector from '../42/PartialContentInjector.js';
 /*
  * settings
  **/
 const APP_VERSION = '1.1.1';
+const ALLOWED_DOMAINS = ['raw.githubusercontent.com', 'blackhole.spaceface.org'];
 /*
  * initializeApp
  **/

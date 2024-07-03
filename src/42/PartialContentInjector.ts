@@ -4,7 +4,6 @@
  * PartialContentInjector class injects partial HTML content into the DOM,
  * maintaining the original sequence of the partials.
  */
-import { ALLOWED_DOMAINS } from '../app/config.js';
 import PartialContentFetcher from './PartialContentFetcher.js';
 
 class PartialContentInjector {
@@ -12,7 +11,10 @@ class PartialContentInjector {
     private partialContentFetcher: PartialContentFetcher;
     private allowedCrossOriginDomains: string[];
     
-    constructor(allowedCrossOriginDomains: string[] = ALLOWED_DOMAINS, baseUrl?: string) {
+    constructor(
+        allowedCrossOriginDomains: string[],
+        baseUrl?: string
+    ) {
         console.log('___PartialContentInjector ', PartialContentInjector.VERSION);
         this.partialContentFetcher = new PartialContentFetcher(baseUrl);
         this.allowedCrossOriginDomains = allowedCrossOriginDomains;
