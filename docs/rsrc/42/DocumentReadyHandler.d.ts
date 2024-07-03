@@ -1,8 +1,8 @@
-declare class AsyncDomHandler {
+declare class DocumentReadyHandler {
     static readonly VERSION = "1.2.0";
     readonly ready: Promise<void>;
     /**
-     * Initializes AsyncDomHandler instance.
+     * Initializes DocumentReadyHandler instance.
      * @param document The document object to use. Default is window.document.
      */
     constructor(document?: Document);
@@ -25,4 +25,4 @@ declare class AsyncDomHandler {
      */
     private cleanupListeners;
 }
-export default AsyncDomHandler;
+export default DocumentReadyHandler;

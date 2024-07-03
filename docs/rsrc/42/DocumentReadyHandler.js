@@ -1,10 +1,10 @@
-class AsyncDomHandler {
+class DocumentReadyHandler {
     /**
-     * Initializes AsyncDomHandler instance.
+     * Initializes DocumentReadyHandler instance.
      * @param document The document object to use. Default is window.document.
      */
     constructor(document = window.document) {
-        console.log('___AsyncDomHandler ', AsyncDomHandler.VERSION);
+        console.log('___DocumentReadyHandler ', DocumentReadyHandler.VERSION);
         this.ready = this.initPromise(document);
     }
     /**
@@ -45,6 +45,6 @@ class AsyncDomHandler {
         document.removeEventListener('DOMContentLoaded', listener);
     }
 }
-AsyncDomHandler.VERSION = '1.2.0';
-export default AsyncDomHandler;
-//# sourceMappingURL=AsyncDomHandler.js.map
+DocumentReadyHandler.VERSION = '1.2.0';
+export default DocumentReadyHandler;
+//# sourceMappingURL=DocumentReadyHandler.js.map

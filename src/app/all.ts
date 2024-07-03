@@ -3,15 +3,14 @@
  * 
  * Initialization script for the application.
  */
-import { ALLOWED_DOMAINS } from './config.js';
-import DocumentReadyHandler from '../42/DocumentReadyHandler.js';
+import AsyncDomHandler from '../42/DocumentReadyHandler.js';
 import PartialContentInjector from '../42/PartialContentInjector.js';
 
 /*
  * settings
  **/
 const APP_VERSION = '1.1.1';
-
+const ALLOWED_DOMAINS = ['raw.githubusercontent.com', 'blackhole.spaceface.org'];
 
 /*
  * initializeApp
@@ -19,7 +18,7 @@ const APP_VERSION = '1.1.1';
 async function initializeApp() {
     console.log('Initializing application...');
 
-    const domReady = new DocumentReadyHandler();
+    const domReady = new AsyncDomHandler();
     const injector = new PartialContentInjector(ALLOWED_DOMAINS);
 
     try {
@@ -36,10 +35,13 @@ async function initializeApp() {
     }
 }
 
+function delay(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function demoAwait() {
-    setTimeout(function() {
-        console.log("demoAwait demoAwait demoAwait");
-      }, 5000);
+    await delay(5000);
+    console.log("demoAwait demoAwait demoAwait");
 }
 
 /*

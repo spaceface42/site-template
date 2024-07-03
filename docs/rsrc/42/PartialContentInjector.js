@@ -1,11 +1,13 @@
 /**
- * PartialContentInjector v1.0.1
+ * PartialContentInjector v1.0.2
  *
- * PromiseDom class provides a promise that resolves when the DOM is ready.
+ * PartialContentInjector class injects partial HTML content into the DOM,
+ * maintaining the original sequence of the partials.
  */
+import { ALLOWED_DOMAINS } from '../app/config.js';
 import PartialContentFetcher from './PartialContentFetcher.js';
 class PartialContentInjector {
-    constructor(allowedCrossOriginDomains = ['raw.githubusercontent.com'], baseUrl) {
+    constructor(allowedCrossOriginDomains = ALLOWED_DOMAINS, baseUrl) {
         console.log('___PartialContentInjector ', PartialContentInjector.VERSION);
         this.partialContentFetcher = new PartialContentFetcher(baseUrl);
         this.allowedCrossOriginDomains = allowedCrossOriginDomains;
@@ -20,34 +22,34 @@ class PartialContentInjector {
             await this.injectPartial(url, partial);
         }));
     }
+    async injectSinglePartial(url, targetSelector) {
+        const targetElement = document.querySelector(targetSelector);
+        if (!targetElement) {
+            throw new Error(`Target element not found for selector: ${targetSelector}`);
+        }
+        await this.injectPartial(url, targetElement);
+    }
     async injectPartial(url, element) {
         try {
+            let content;
             if (this.partialContentFetcher.isSameOrigin(url)) {
-                await this.injectSameOriginPartial(url, element);
+                content = await this.partialContentFetcher.fetchContent(url);
             }
             else if (this.isAllowedCrossOrigin(url)) {
-                await this.injectCrossOriginPartial(url, element);
+                content = await this.partialContentFetcher.fetchContent(url, {
+                    mode: 'cors',
+                    credentials: 'omit'
+                });
             }
             else {
                 throw new Error(`Cross-origin request not allowed for: ${url}`);
             }
+            this.insertContent(content, element);
         }
         catch (error) {
             console.error(`Error injecting partial from ${url}:`, error instanceof Error ? error.message : String(error));
+            throw error; // Propagate the error
         }
-    }
-    async injectSameOriginPartial(url, element) {
-        const content = await this.partialContentFetcher.fetchContent(url);
-        this.insertContent(content, element);
-    }
-    async injectCrossOriginPartial(url, element) {
-        // You might want to add additional security measures here
-        // For example, adding specific headers for cross-origin requests
-        const content = await this.partialContentFetcher.fetchContent(url, {
-            mode: 'cors',
-            credentials: 'omit'
-        });
-        this.insertContent(content, element);
     }
     isAllowedCrossOrigin(url) {
         try {
@@ -66,9 +68,10 @@ class PartialContentInjector {
         }
         catch (error) {
             console.error('insertContent: Error inserting HTML:', error instanceof Error ? error.message : String(error));
+            throw error; // Propagate the error
         }
     }
 }
-PartialContentInjector.VERSION = '1.0.1';
+PartialContentInjector.VERSION = '1.0.2';
 export default PartialContentInjector;
 //# sourceMappingURL=PartialContentInjector.js.map

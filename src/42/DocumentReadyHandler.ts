@@ -1,23 +1,23 @@
 /**
- * PromiseDom v1.1.3
+ * DocumentReadyHandler v1.2.0
  * 
- * PromiseDom class provides a promise that resolves when the DOM is ready.
+ * DocumentReadyHandler class provides a promise that resolves when the DOM is ready.
  */
 type DocumentReadyState = 'loading' | 'interactive' | 'complete';
 
-class AsyncDomHandler {
+class DocumentReadyHandler {
     static readonly VERSION = '1.2.0';
     readonly ready: Promise<void>;
     
     /**
-     * Initializes PromiseDom instance.
+     * Initializes DocumentReadyHandler instance.
      * @param document The document object to use. Default is window.document.
      */
     constructor(document: Document = window.document) {
-        console.log('___AsyncDomHandler ', AsyncDomHandler.VERSION);
+        console.log('___DocumentReadyHandler ', DocumentReadyHandler.VERSION);
         this.ready = this.initPromise(document);
     }
-
+    
     /**
      * Initializes the promise that resolves when the DOM is ready.
      * @param document The document object to use.
@@ -38,16 +38,16 @@ class AsyncDomHandler {
             }
         });
     }
-
+    
     /**
      * Checks if the DOM is ready based on the readyState.
      * @param state The current readyState of the document.
      * @returns True if the DOM is ready, false otherwise.
      */
-    private isDomReady(state: string): state is 'interactive' | 'complete' {
+    private isDomReady(state: DocumentReadyState): boolean {
         return state === 'interactive' || state === 'complete';
     }
-
+    
     /**
      * Cleans up event listeners.
      * @param document The document object.
@@ -58,4 +58,4 @@ class AsyncDomHandler {
     }
 }
 
-export default AsyncDomHandler;
+export default DocumentReadyHandler;

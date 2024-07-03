@@ -3,19 +3,19 @@
  *
  * Initialization script for the application.
  */
-import AsyncDomHandler from '../42/AsyncDomHandler.js';
+import { ALLOWED_DOMAINS } from './config.js';
+import DocumentReadyHandler from '../42/DocumentReadyHandler.js';
 import PartialContentInjector from '../42/PartialContentInjector.js';
 /*
  * settings
  **/
 const APP_VERSION = '1.1.1';
-const ALLOWED_DOMAINS = ['raw.githubusercontent.com', 'blackhole.spaceface.org'];
 /*
  * initializeApp
  **/
 async function initializeApp() {
     console.log('Initializing application...');
-    const domReady = new AsyncDomHandler();
+    const domReady = new DocumentReadyHandler();
     const injector = new PartialContentInjector(ALLOWED_DOMAINS);
     try {
         await domReady.ready;

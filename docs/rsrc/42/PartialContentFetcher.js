@@ -1,5 +1,5 @@
 /**
- * PartialContentFetcher
+ * PartialContentFetcher v1.1.0
  *
  * fetch html partials
  */
