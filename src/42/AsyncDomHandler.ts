@@ -5,14 +5,16 @@
  */
 type DocumentReadyState = 'loading' | 'interactive' | 'complete';
 
-class PromiseDom {
+class AsyncDomHandler {
+    static readonly VERSION = '1.2.0';
     readonly ready: Promise<void>;
-
+    
     /**
      * Initializes PromiseDom instance.
      * @param document The document object to use. Default is window.document.
      */
     constructor(document: Document = window.document) {
+        console.log('___AsyncDomHandler ', AsyncDomHandler.VERSION);
         this.ready = this.initPromise(document);
     }
 
@@ -56,4 +58,4 @@ class PromiseDom {
     }
 }
 
-export default PromiseDom;
+export default AsyncDomHandler;

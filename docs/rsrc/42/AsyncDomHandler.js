@@ -1,11 +1,10 @@
-class PromiseDom {
+class AsyncDomHandler {
     /**
      * Initializes PromiseDom instance.
      * @param document The document object to use. Default is window.document.
      */
     constructor(document = window.document) {
-        this.VERSION = '1.2.0';
-        console.log('___PromiseDom ', this.VERSION);
+        console.log('___AsyncDomHandler ', AsyncDomHandler.VERSION);
         this.ready = this.initPromise(document);
     }
     /**
@@ -46,5 +45,6 @@ class PromiseDom {
         document.removeEventListener('DOMContentLoaded', listener);
     }
 }
-export default PromiseDom;
-//# sourceMappingURL=PromiseDom.js.map
+AsyncDomHandler.VERSION = '1.2.0';
+export default AsyncDomHandler;
+//# sourceMappingURL=AsyncDomHandler.js.map

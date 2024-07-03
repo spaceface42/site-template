@@ -1,11 +1,11 @@
 /**
- * FetchPartial
+ * PartialContentFetcher
  *
  * fetch html partials
  */
-declare class FetchPartial {
+declare class PartialContentFetcher {
+    static readonly VERSION = "1.1.0";
     private readonly originUrl;
-    readonly VERSION = "2.0.0";
     constructor(baseUrl?: string);
     /**
      * Accept content only if it is text/html or text/plain
@@ -14,4 +14,4 @@ declare class FetchPartial {
     isSameOrigin(url: string): boolean;
     private isValidContentType;
 }
-export default FetchPartial;
+export default PartialContentFetcher;
