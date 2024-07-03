@@ -1,4 +1,4 @@
-declare class PromiseDom {
+declare class AsyncDomHandler {
     readonly ready: Promise<void>;
     readonly VERSION = "1.2.0";
     /**
@@ -25,4 +25,4 @@ declare class PromiseDom {
      */
     private cleanupListeners;
 }
-export default PromiseDom;
+export default AsyncDomHandler;

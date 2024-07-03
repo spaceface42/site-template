@@ -3,7 +3,7 @@
  * 
  * Initialization script for the application.
  */
-import PromiseDom from '../42/PromiseDom.js';
+import AsyncDomHandler from '../42/AsyncDomHandler.js';
 import PartialContentInjector from '../42/PartialContentInjector.js';
 
 /*
@@ -18,20 +18,28 @@ const ALLOWED_DOMAINS = ['raw.githubusercontent.com', 'blackhole.spaceface.org']
 async function initializeApp() {
     console.log('Initializing application...');
 
-    const domReady = new PromiseDom();
+    const domReady = new AsyncDomHandler();
     const injector = new PartialContentInjector(ALLOWED_DOMAINS);
 
     try {
         await domReady.ready;
         console.log('DOM is now ready!');
 
-        await addWelcomeMessage();
+        await demoAwait();
+
         await injectPartials(injector);
 
         console.log('Application initialized successfully');
     } catch (error) {
         console.error('An error occurred during initialization:', error instanceof Error ? error.message : String(error));
     }
+}
+
+async function demoAwait() {
+    setTimeout(function() {
+        await addWelcomeMessage();
+        console.log("demoAwait demoAwait demoAwait");
+      }, 5000);
 }
 
 /*

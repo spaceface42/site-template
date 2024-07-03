@@ -3,12 +3,12 @@
  *
  * PromiseDom class provides a promise that resolves when the DOM is ready.
  */
-import FetchPartial from './FetchPartial.js';
+import PartialContentFetcher from './PartialContentFetcher.js';
 class PartialContentInjector {
     constructor(allowedCrossOriginDomains = ['raw.githubusercontent.com'], baseUrl) {
         this.VERSION = '1.0.1';
         console.log('___PartialContentInjector ', this.VERSION);
-        this.fetchPartial = new FetchPartial(baseUrl);
+        this.partialContentFetcher = new PartialContentFetcher(baseUrl);
         this.allowedCrossOriginDomains = allowedCrossOriginDomains;
     }
     async injectAllPartials(selector = 'link[rel="html"]') {
@@ -23,7 +23,7 @@ class PartialContentInjector {
     }
     async injectPartial(url, element) {
         try {
-            if (this.fetchPartial.isSameOrigin(url)) {
+            if (this.partialContentFetcher.isSameOrigin(url)) {
                 await this.injectSameOriginPartial(url, element);
             }
             else if (this.isAllowedCrossOrigin(url)) {
@@ -38,13 +38,13 @@ class PartialContentInjector {
         }
     }
     async injectSameOriginPartial(url, element) {
-        const content = await this.fetchPartial.fetchContent(url);
+        const content = await this.partialContentFetcher.fetchContent(url);
         this.insertContent(content, element);
     }
     async injectCrossOriginPartial(url, element) {
         // You might want to add additional security measures here
         // For example, adding specific headers for cross-origin requests
-        const content = await this.fetchPartial.fetchContent(url, {
+        const content = await this.partialContentFetcher.fetchContent(url, {
             mode: 'cors',
             credentials: 'omit'
         });

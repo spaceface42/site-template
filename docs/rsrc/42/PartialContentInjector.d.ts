@@ -1,5 +1,5 @@
 declare class PartialContentInjector {
-    private fetchPartial;
+    private partialContentFetcher;
     private allowedCrossOriginDomains;
     readonly VERSION = "1.0.1";
     constructor(allowedCrossOriginDomains?: string[], baseUrl?: string);
