@@ -1,8 +1,14 @@
-// PartialContentInjector.ts
+/**
+ * PartialContentInjector v1.0.1
+ *
+ * PromiseDom class provides a promise that resolves when the DOM is ready.
+ */
 import FetchPartial from './FetchPartial.js';
 class PartialContentInjector {
-    constructor(allowedCrossOriginDomains = ['raw.githubusercontent.com']) {
-        this.fetchPartial = new FetchPartial();
+    constructor(allowedCrossOriginDomains = ['raw.githubusercontent.com'], baseUrl) {
+        this.VERSION = '1.0.1';
+        console.log('___PartialContentInjector ', this.VERSION);
+        this.fetchPartial = new FetchPartial(baseUrl);
         this.allowedCrossOriginDomains = allowedCrossOriginDomains;
     }
     async injectAllPartials(selector = 'link[rel="html"]') {
@@ -19,17 +25,16 @@ class PartialContentInjector {
         try {
             if (this.fetchPartial.isSameOrigin(url)) {
                 await this.injectSameOriginPartial(url, element);
-                return; // Return early after handling same-origin case
             }
-            if (this.isAllowedCrossOrigin(url)) {
+            else if (this.isAllowedCrossOrigin(url)) {
                 await this.injectCrossOriginPartial(url, element);
-                return; // Return early after handling allowed cross-origin case
             }
-            // If neither condition is met, throw an error
-            throw new Error(`Cross-origin request not allowed for: ${url}`);
+            else {
+                throw new Error(`Cross-origin request not allowed for: ${url}`);
+            }
         }
         catch (error) {
-            console.error(`Error injecting partial from ${url}:`, error);
+            console.error(`Error injecting partial from ${url}:`, error instanceof Error ? error.message : String(error));
         }
     }
     async injectSameOriginPartial(url, element) {
@@ -37,36 +42,31 @@ class PartialContentInjector {
         this.insertContent(content, element);
     }
     async injectCrossOriginPartial(url, element) {
-        const content = await this.fetchPartial.fetchContent(url);
         // You might want to add additional security measures here
-        // For example, sanitizing the content before inserting it
+        // For example, adding specific headers for cross-origin requests
+        const content = await this.fetchPartial.fetchContent(url, {
+            mode: 'cors',
+            credentials: 'omit'
+        });
         this.insertContent(content, element);
     }
     isAllowedCrossOrigin(url) {
-        const urlObject = new URL(url);
-        return this.allowedCrossOriginDomains.includes(urlObject.hostname);
-    }
-    insertContentX(content, element) {
-        var _a;
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = content.trim();
-        while (tempDiv.firstChild) {
-            (_a = element.parentNode) === null || _a === void 0 ? void 0 : _a.insertBefore(tempDiv.firstChild, element);
-        }
-        element.remove();
-    }
-    /**
-     * Inserts the response HTML into the provided element using insertAdjacentHTML.
-     * @param response The response HTML.
-     * @param element The element to update with the response HTML.
-     */
-    insertContent(response, element) {
         try {
-            element.insertAdjacentHTML('beforebegin', response.trim());
+            const urlObject = new URL(url);
+            return this.allowedCrossOriginDomains.includes(urlObject.hostname);
+        }
+        catch (error) {
+            console.warn(`Invalid URL: ${url}`);
+            return false;
+        }
+    }
+    insertContent(content, element) {
+        try {
+            element.insertAdjacentHTML('beforebegin', content.trim());
             element.remove();
         }
         catch (error) {
-            console.error('insertPartial: Error inserting HTML:', error);
+            console.error('insertContent: Error inserting HTML:', error instanceof Error ? error.message : String(error));
         }
     }
 }

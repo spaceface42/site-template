@@ -4,6 +4,8 @@ class PromiseDom {
      * @param document The document object to use. Default is window.document.
      */
     constructor(document = window.document) {
+        this.VERSION = '1.1.3';
+        console.log('___PromiseDom ', this.VERSION);
         this.ready = this.initPromise(document);
     }
     /**

@@ -1,5 +1,6 @@
 declare class PromiseDom {
     readonly ready: Promise<void>;
+    readonly VERSION = "1.1.3";
     /**
      * Initializes PromiseDom instance.
      * @param document The document object to use. Default is window.document.

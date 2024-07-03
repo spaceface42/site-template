@@ -7,12 +7,14 @@ type DocumentReadyState = 'loading' | 'interactive' | 'complete';
 
 class PromiseDom {
     readonly ready: Promise<void>;
-
+    readonly VERSION = '1.1.3';
+    
     /**
      * Initializes PromiseDom instance.
      * @param document The document object to use. Default is window.document.
      */
     constructor(document: Document = window.document) {
+        console.log('___PromiseDom ', this.VERSION);
         this.ready = this.initPromise(document);
     }
 

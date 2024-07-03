@@ -3,40 +3,57 @@
  *
  * Initialization script for the application.
  */
-console.log('app.js starting...');
 import PromiseDom from '../42/PromiseDom.js';
 import PartialContentInjector from '../42/PartialContentInjector.js';
 /*
- *
- * 1. check for domreadyness
- * 2. then fetch and inject partials into the dom
- *
+ * settings
+ **/
+const APP_VERSION = '1.1.1';
+const ALLOWED_DOMAINS = ['raw.githubusercontent.com', 'blackhole.spaceface.org'];
+/*
+ * initializeApp
  **/
 async function initializeApp() {
+    console.log('Initializing application...');
     const domReady = new PromiseDom();
-    const injector = new PartialContentInjector(['raw.githubusercontent.com']);
-    console.log('initializeApp...');
+    const injector = new PartialContentInjector(ALLOWED_DOMAINS);
     try {
         await domReady.ready;
         console.log('DOM is now ready!');
-        // Manipulate DOM: Add welcome message
-        const consoleElement = document.getElementById('console');
-        if (consoleElement) {
-            const h3 = document.createElement('h3');
-            h3.textContent = 'Welcome to spaceface / spacesuit / version 1.0.1';
-            consoleElement.appendChild(h3);
-        }
-        else {
-            console.warn('initializeApp | Element with id "console" not found');
-        }
-        await injector.injectAllPartials();
-        console.log('All partials injected successfully');
+        await addWelcomeMessage();
+        await injectPartials(injector);
+        console.log('Application initialized successfully');
     }
     catch (error) {
-        console.error('An error occurred during initialization:', error);
+        console.error('An error occurred during initialization:', error instanceof Error ? error.message : String(error));
     }
 }
-// Call the async function to start the application
-initializeApp();
-console.log('bye...');
+/*
+ * demo function to inject text from js code
+ **/
+async function addWelcomeMessage() {
+    const consoleElement = document.getElementById('console');
+    if (consoleElement) {
+        const h3 = document.createElement('h3');
+        h3.textContent = `Welcome to spaceface / spacesuit / version ${APP_VERSION}`;
+        consoleElement.appendChild(h3);
+    }
+    else {
+        console.warn('Element with id "console" not found');
+    }
+}
+/*
+ * injectPartials
+ **/
+async function injectPartials(injector) {
+    await injector.injectAllPartials();
+    console.log('All partials injected successfully');
+}
+/*
+ * Call the async function to start the application
+ **/
+initializeApp().catch(error => {
+    console.log('__________________ ERROR ___');
+    console.error('Fatal error during application initialization:', error instanceof Error ? error.message : String(error));
+});
 //# sourceMappingURL=app.js.map
