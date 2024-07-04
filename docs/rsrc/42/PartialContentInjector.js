@@ -7,7 +7,9 @@
 import PartialContentFetcher from './PartialContentFetcher.js';
 class PartialContentInjector {
     constructor(allowedCrossOriginDomains, baseUrl) {
-        console.log('___PartialContentInjector ', PartialContentInjector.VERSION);
+        if (!allowedCrossOriginDomains || allowedCrossOriginDomains.length === 0) {
+            throw new Error('ALLOWED_DOMAINS is undefined or empty. Please configure allowed domains.');
+        }
         this.partialContentFetcher = new PartialContentFetcher(baseUrl);
         this.allowedCrossOriginDomains = allowedCrossOriginDomains;
     }

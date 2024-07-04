@@ -11,11 +11,11 @@ class PartialContentInjector {
     private partialContentFetcher: PartialContentFetcher;
     private allowedCrossOriginDomains: string[];
     
-    constructor(
-        allowedCrossOriginDomains: string[],
-        baseUrl?: string
-    ) {
-        console.log('___PartialContentInjector ', PartialContentInjector.VERSION);
+    constructor(allowedCrossOriginDomains: string[], baseUrl?: string) {
+        if (!allowedCrossOriginDomains || allowedCrossOriginDomains.length === 0) {
+            throw new Error('ALLOWED_DOMAINS is undefined or empty. Please configure allowed domains.');
+        }
+
         this.partialContentFetcher = new PartialContentFetcher(baseUrl);
         this.allowedCrossOriginDomains = allowedCrossOriginDomains;
     }

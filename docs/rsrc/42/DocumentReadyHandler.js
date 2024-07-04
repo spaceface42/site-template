@@ -4,7 +4,6 @@ class DocumentReadyHandler {
      * @param document The document object to use. Default is window.document.
      */
     constructor(document = window.document) {
-        console.log('___DocumentReadyHandler ', DocumentReadyHandler.VERSION);
         this.ready = this.initPromise(document);
     }
     /**

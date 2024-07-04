@@ -8,7 +8,6 @@ class PartialContentFetcher {
     private readonly originUrl: URL;
     
     constructor(baseUrl: string = window.location.href) {
-        console.log('___PartialContentFetcher ', PartialContentFetcher.VERSION);
         this.originUrl = new URL(baseUrl);
     }
     

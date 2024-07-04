@@ -5,7 +5,6 @@
  */
 class PartialContentFetcher {
     constructor(baseUrl = window.location.href) {
-        console.log('___PartialContentFetcher ', PartialContentFetcher.VERSION);
         this.originUrl = new URL(baseUrl);
     }
     /**
