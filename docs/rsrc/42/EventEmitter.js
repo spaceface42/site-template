@@ -1,4 +1,3 @@
-// Simple event system for logging and debugging
 class EventEmitter {
     constructor() {
         this.listeners = {};
@@ -7,11 +6,12 @@ class EventEmitter {
         if (!this.listeners[event]) {
             this.listeners[event] = [];
         }
-        this.listeners[event].push(callback);
+        this.listeners[event].push(callback); // Use type assertion
     }
     emit(event, data) {
-        if (this.listeners[event]) {
-            this.listeners[event].forEach(callback => callback(data));
+        const callbacks = this.listeners[event];
+        if (callbacks) {
+            callbacks.forEach(callback => callback(data));
         }
     }
 }

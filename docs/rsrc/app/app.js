@@ -14,7 +14,6 @@ class AppInitializer {
             await this.initializePartialContentInjector();
             await this.waitForDomReady();
             await this.injectPartials();
-            await this.demoErrors();
             await this.runPostInitializationTasks();
             this.appEvents.emit('info', 'Application initialized successfully');
         }
@@ -56,13 +55,10 @@ class AppInitializer {
         await new Promise(resolve => setTimeout(resolve, 5000));
         this.appEvents.emit('info', "demoAwait demoAwait demoAwait");
     }
-    async demoErrors() {
-        this.appEvents.emit('error', 'demoErrors Someerror Initialization failed');
-    }
 }
 // Constants and initialization
 const APP_VERSION = '1.3.0';
-const ALLOWED_DOMAINS = ['raw.githubusercontents.com', 'blackhole.spacefacea.org'];
+const ALLOWED_DOMAINS = ['raw.githubusercontent.com', 'blackhole.spaceface.org'];
 const appEvents = new EventEmitter();
 // Logging setup
 appEvents.on('info', (message) => console.log(message));

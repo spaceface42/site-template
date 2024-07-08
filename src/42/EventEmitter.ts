@@ -1,17 +1,17 @@
-// Simple event system for logging and debugging
 class EventEmitter {
-    private listeners: {[key: string]: Function[]} = {};
+    private listeners: { [key: string]: Function[] } = {};
 
     on(event: string, callback: Function) {
         if (!this.listeners[event]) {
             this.listeners[event] = [];
         }
-        this.listeners[event].push(callback);
+        (this.listeners[event] as Function[]).push(callback); // Use type assertion
     }
 
     emit(event: string, data?: any) {
-        if (this.listeners[event]) {
-            this.listeners[event].forEach(callback => callback(data));
+        const callbacks = this.listeners[event];
+        if (callbacks) {
+            callbacks.forEach(callback => callback(data));
         }
     }
 }
