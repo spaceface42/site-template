@@ -3,29 +3,21 @@
  * 
  * Initialization script for the application.
  */
+import { FetchError } from '../42/customErrors.js';
 import DocumentReadyHandler from '../42/DocumentReadyHandler.js';
 import PartialContentInjector from '../42/PartialContentInjector.js';
-
-
-export const APP_VERSION = '1.3.0';
-const ALLOWED_DOMAINS = ['raw.githubusercontent.com', 'blackhole.spaceface.org'];
-
-
-
-// event emitter / log errors
 import EventEmitter from '../42/EventEmitter.js';
-const appEvents = new EventEmitter();
 
 
 
-// app init class
-// checks for DOM readyness and then inits the app
+
+// AppInitializer
 class AppInitializer {
     private documentReadyHandler: DocumentReadyHandler;
     private partialContentInjector: PartialContentInjector;
 
-    constructor() {
-        appEvents.emit('info', `Initializing application version ${APP_VERSION}...`);
+    constructor(private readonly appEvents: EventEmitter, private readonly allowedDomains: string[]) {
+        this.appEvents.emit('info', `Initializing application version ${APP_VERSION}...`);
         this.documentReadyHandler = new DocumentReadyHandler();
     }
 
@@ -38,20 +30,20 @@ class AppInitializer {
             await this.demoErrors();
             await this.runPostInitializationTasks();
 
-            appEvents.emit('info', 'Application initialized successfully');
+            this.appEvents.emit('info', 'Application initialized successfully');
         } catch (error) {
-            appEvents.emit('error', 'Initialization failed');
-            throw error; // Re-throw to be caught by the global error handler
+            this.appEvents.emit('error', 'Initialization failed');
+            throw error;
         }
     }
 
     private async initializePartialContentInjector() {
-        this.partialContentInjector = new PartialContentInjector(ALLOWED_DOMAINS);
+        this.partialContentInjector = new PartialContentInjector(this.allowedDomains);
     }
 
     private async waitForDomReady() {
         await this.documentReadyHandler.ready;
-        appEvents.emit('info', 'DOM is now ready!');
+        this.appEvents.emit('info', 'DOM is now ready!');
     }
 
     private async injectPartials() {
@@ -59,7 +51,7 @@ class AppInitializer {
             throw new Error('PartialContentInjector is not initialized');
         }
         await this.partialContentInjector.injectAllPartials();
-        appEvents.emit('info', 'All partials injected successfully');
+        this.appEvents.emit('info', 'All partials injected successfully');
     }
 
     private async runPostInitializationTasks() {
@@ -74,35 +66,38 @@ class AppInitializer {
             h3.textContent = `Welcome to spaceface / spacesuit / version ${APP_VERSION}`;
             consoleElement.appendChild(h3);
         } else {
-            appEvents.emit('warn', 'Element with id "console" not found');
+            this.appEvents.emit('warn', 'Element with id "console" not found');
         }
     }
 
     private async demoAwait() {
         await new Promise(resolve => setTimeout(resolve, 5000));
-        appEvents.emit('info', "demoAwait demoAwait demoAwait");
+        this.appEvents.emit('info', "demoAwait demoAwait demoAwait");
     }
 
     private async demoErrors() {
-        appEvents.emit('error', 'demoErrors Someerror Initialization failed');
-        // throw error; // Re-throw to be caught by the global error handler
+        this.appEvents.emit('error', 'demoErrors Someerror Initialization failed');
     }
 }
 
-// Global error handler
-window.addEventListener('error', (event) => {
-    appEvents.emit('error', `Uncaught error: ${event.error}`);
-});
+// Constants and initialization
+const APP_VERSION = '1.3.0';
+const ALLOWED_DOMAINS = ['raw.githubusercontents.com', 'blackhole.spacefacea.org'];
+
+const appEvents = new EventEmitter();
 
 // Logging setup
 appEvents.on('info', (message: any) => console.log(message));
 appEvents.on('warn', (message: any) => console.warn(message));
 appEvents.on('error', (message: any) => console.error(message));
 
+// Global error handler
+window.addEventListener('error', (event) => {
+    appEvents.emit('error', `Uncaught error: ${event.error}`);
+});
+
 // Start the application
-const appInitializer = new AppInitializer();
+const appInitializer = new AppInitializer(appEvents, ALLOWED_DOMAINS);
 appInitializer.initialize().catch(() => {
     // Handle any cleanup or user notification here
 });
-
-

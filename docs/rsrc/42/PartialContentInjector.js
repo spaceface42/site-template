@@ -1,9 +1,3 @@
-/**
- * PartialContentInjector v1.0.2
- *
- * PartialContentInjector class injects partial HTML content into the DOM,
- * maintaining the original sequence of the partials.
- */
 import PartialContentFetcher from './PartialContentFetcher.js';
 class PartialContentInjector {
     constructor(allowedCrossOriginDomains, baseUrl) {

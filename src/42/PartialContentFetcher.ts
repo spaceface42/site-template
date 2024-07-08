@@ -3,6 +3,8 @@
  * 
  * fetch html partials
  */
+import { FetchError, HTTPError, ContentTypeError } from './customErrors.js';
+
 class PartialContentFetcher {
     static readonly VERSION = '1.1.0';
     private readonly originUrl: URL;
@@ -11,9 +13,6 @@ class PartialContentFetcher {
         this.originUrl = new URL(baseUrl);
     }
     
-    /**
-     * Accept content only if it is text/html or text/plain
-     **/
     async fetchContent(url: string, options: RequestInit = {}): Promise<string> {
         try {
             const response = await fetch(url, {
@@ -25,20 +24,23 @@ class PartialContentFetcher {
             });
             
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                throw new HTTPError(`HTTP error! status: ${response.status}`, url, response.status);
             }
             
             const contentType = response.headers.get('Content-Type');
             
             if (!contentType) {
-                console.warn(`No Content-Type header received from ${url}`);
+                throw new ContentTypeError('No Content-Type header received', url, null);
             } else if (!this.isValidContentType(contentType)) {
-                console.warn(`Unexpected Content-Type received from ${url}: ${contentType}`);
+                throw new ContentTypeError(`Unexpected Content-Type received: ${contentType}`, url, contentType);
             }
             
             return await response.text();
         } catch (error) {
-            throw new Error(`Failed to fetch content from ${url}: ${error instanceof Error ? error.message : 'Unknown error'}`);
+            if (error instanceof FetchError) {
+                throw error;
+            }
+            throw new FetchError(`Failed to fetch content: ${error instanceof Error ? error.message : 'Unknown error'}`, url);
         }
     }
     
@@ -57,5 +59,6 @@ class PartialContentFetcher {
         return validTypes.some(type => contentType.includes(type));
     }
 }
+
 
 export default PartialContentFetcher;

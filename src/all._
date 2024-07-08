@@ -1,0 +1,230 @@
+// Custom Error Classes
+class FetchError extends Error {
+    constructor(message: string, public readonly url: string) {
+        super(message);
+        this.name = 'FetchError';
+    }
+}
+
+class HTTPError extends FetchError {
+    constructor(message: string, url: string, public readonly status: number) {
+        super(message, url);
+        this.name = 'HTTPError';
+    }
+}
+
+class ContentTypeError extends FetchError {
+    constructor(message: string, url: string, public readonly contentType: string | null) {
+        super(message, url);
+        this.name = 'ContentTypeError';
+    }
+}
+
+// DocumentReadyHandler
+type DocumentReadyState = 'loading' | 'interactive' | 'complete';
+
+class DocumentReadyHandler {
+    static readonly VERSION = '1.2.0';
+    readonly ready: Promise<void>;
+    
+    constructor(document: Document = window.document) {
+        this.ready = this.initPromise(document);
+    }
+    
+    private initPromise(document: Document): Promise<void> {
+        return new Promise<void>((resolve) => {
+            if (this.isDomReady(document.readyState)) {
+                resolve();
+            } else {
+                const onDOMContentLoaded = () => {
+                    resolve();
+                    this.cleanupListeners(document, onDOMContentLoaded);
+                };
+                document.addEventListener('DOMContentLoaded', onDOMContentLoaded, { once: true });
+            }
+        });
+    }
+    
+    private isDomReady(state: DocumentReadyState): boolean {
+        return state === 'interactive' || state === 'complete';
+    }
+    
+    private cleanupListeners(document: Document, listener: EventListenerOrEventListenerObject): void {
+        document.removeEventListener('DOMContentLoaded', listener);
+    }
+}
+
+// EventEmitter
+class EventEmitter {
+    private listeners: {[key: string]: Function[]} = {};
+
+    on(event: string, callback: Function) {
+        if (!this.listeners[event]) {
+            this.listeners[event] = [];
+        }
+        this.listeners[event].push(callback);
+    }
+
+    emit(event: string, data?: any) {
+        if (this.listeners[event]) {
+            this.listeners[event].forEach(callback => callback(data));
+        }
+    }
+}
+
+// PartialContentFetcher
+class PartialContentFetcher {
+    static readonly VERSION = '1.1.0';
+    private readonly originUrl: URL;
+    
+    constructor(baseUrl: string = window.location.href) {
+        this.originUrl = new URL(baseUrl);
+    }
+    
+    async fetchContent(url: string, options: RequestInit = {}): Promise<string> {
+        try {
+            const response = await fetch(url, {
+                ...options,
+                headers: {
+                    ...options.headers,
+                    'Accept': 'text/html, text/plain'
+                }
+            });
+            
+            if (!response.ok) {
+                throw new HTTPError(`HTTP error! status: ${response.status}`, url, response.status);
+            }
+            
+            const contentType = response.headers.get('Content-Type');
+            
+            if (!contentType) {
+                throw new ContentTypeError('No Content-Type header received', url, null);
+            } else if (!this.isValidContentType(contentType)) {
+                throw new ContentTypeError(`Unexpected Content-Type received: ${contentType}`, url, contentType);
+            }
+            
+            return await response.text();
+        } catch (error) {
+            if (error instanceof FetchError) {
+                throw error;
+            }
+            throw new FetchError(`Failed to fetch content: ${error instanceof Error ? error.message : 'Unknown error'}`, url);
+        }
+    }
+    
+    isSameOrigin(url: string): boolean {
+        try {
+            const urlOrigin = new URL(url, this.originUrl).origin;
+            return this.originUrl.origin === urlOrigin;
+        } catch (error) {
+            console.warn(`Invalid URL: ${url}`);
+            return false;
+        }
+    }
+    
+    private isValidContentType(contentType: string): boolean {
+        const validTypes = ['text/html', 'text/plain'];
+        return validTypes.some(type => contentType.includes(type));
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+// AppInitializer
+class AppInitializer {
+    private documentReadyHandler: DocumentReadyHandler;
+    private partialContentInjector: PartialContentInjector;
+
+    constructor(private readonly appEvents: EventEmitter, private readonly allowedDomains: string[]) {
+        this.appEvents.emit('info', `Initializing application version ${APP_VERSION}...`);
+        this.documentReadyHandler = new DocumentReadyHandler();
+    }
+
+    async initialize() {
+        try {
+            await this.initializePartialContentInjector();
+            await this.waitForDomReady();
+            await this.injectPartials();
+
+            await this.demoErrors();
+            await this.runPostInitializationTasks();
+
+            this.appEvents.emit('info', 'Application initialized successfully');
+        } catch (error) {
+            this.appEvents.emit('error', 'Initialization failed');
+            throw error;
+        }
+    }
+
+    private async initializePartialContentInjector() {
+        this.partialContentInjector = new PartialContentInjector(this.allowedDomains);
+    }
+
+    private async waitForDomReady() {
+        await this.documentReadyHandler.ready;
+        this.appEvents.emit('info', 'DOM is now ready!');
+    }
+
+    private async injectPartials() {
+        if (!this.partialContentInjector) {
+            throw new Error('PartialContentInjector is not initialized');
+        }
+        await this.partialContentInjector.injectAllPartials();
+        this.appEvents.emit('info', 'All partials injected successfully');
+    }
+
+    private async runPostInitializationTasks() {
+        await this.addWelcomeMessage();
+        await this.demoAwait();
+    }
+
+    private async addWelcomeMessage() {
+        const consoleElement = document.getElementById('console');
+        if (consoleElement) {
+            const h3 = document.createElement('h3');
+            h3.textContent = `Welcome to spaceface / spacesuit / version ${APP_VERSION}`;
+            consoleElement.appendChild(h3);
+        } else {
+            this.appEvents.emit('warn', 'Element with id "console" not found');
+        }
+    }
+
+    private async demoAwait() {
+        await new Promise(resolve => setTimeout(resolve, 5000));
+        this.appEvents.emit('info', "demoAwait demoAwait demoAwait");
+    }
+
+    private async demoErrors() {
+        this.appEvents.emit('error', 'demoErrors Someerror Initialization failed');
+    }
+}
+
+// Constants and initialization
+const APP_VERSION = '1.3.0';
+const ALLOWED_DOMAINS = ['raw.githubusercontent.com', 'blackhole.spaceface.org'];
+
+const appEvents = new EventEmitter();
+
+// Logging setup
+appEvents.on('info', (message: any) => console.log(message));
+appEvents.on('warn', (message: any) => console.warn(message));
+appEvents.on('error', (message: any) => console.error(message));
+
+// Global error handler
+window.addEventListener('error', (event) => {
+    appEvents.emit('error', `Uncaught error: ${event.error}`);
+});
+
+// Start the application
+const appInitializer = new AppInitializer(appEvents, ALLOWED_DOMAINS);
+appInitializer.initialize().catch(() => {
+    // Handle any cleanup or user notification here
+});
