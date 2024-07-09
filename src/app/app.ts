@@ -28,8 +28,6 @@ class AppInitializer {
             await this.waitForDomReady();
             await this.injectPartials();
 
-            await this.runPostInitializationTasks();
-
             this.appEvents.emit('info', 'Application initialized successfully');
         } catch (error) {
             this.appEvents.emit('error', 'Initialization failed');
