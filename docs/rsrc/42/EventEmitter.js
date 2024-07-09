@@ -1,6 +1,5 @@
 /**
- * EventEmitter v1.0.2
- *
+ * EventEmitter v1.2.1
  */
 class EventEmitter {
     constructor() {
@@ -10,12 +9,26 @@ class EventEmitter {
         if (!this.listeners[event]) {
             this.listeners[event] = [];
         }
-        this.listeners[event].push(callback); // Use type assertion
+        this.listeners[event].push(callback);
+        // Return a function to remove this listener
+        return () => {
+            const eventListeners = this.listeners[event];
+            if (eventListeners) {
+                this.listeners[event] = eventListeners.filter(cb => cb !== callback);
+            }
+        };
     }
     emit(event, data) {
         const callbacks = this.listeners[event];
         if (callbacks) {
-            callbacks.forEach(callback => callback(data));
+            callbacks.forEach(callback => {
+                try {
+                    callback(data);
+                }
+                catch (error) {
+                    console.error(`Error in event listener for ${event}:`, error);
+                }
+            });
         }
     }
 }

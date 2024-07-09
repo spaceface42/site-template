@@ -1,22 +1,35 @@
 /**
- * EventEmitter v1.0.2
- * 
+ * EventEmitter v1.2.1
  */
 class EventEmitter {
     static readonly VERSION = '1.2.1';
-    private listeners: { [key: string]: Function[] } = {};
+    private listeners: { [key: string]: Array<(data?: any) => void> } = {};
 
-    on(event: string, callback: Function) {
+    on(event: string, callback: (data?: any) => void): () => void {
         if (!this.listeners[event]) {
             this.listeners[event] = [];
         }
-        (this.listeners[event] as Function[]).push(callback); // Use type assertion
+        this.listeners[event].push(callback);
+        
+        // Return a function to remove this listener
+        return () => {
+            const eventListeners = this.listeners[event];
+            if (eventListeners) {
+                this.listeners[event] = eventListeners.filter(cb => cb !== callback);
+            }
+        };
     }
 
-    emit(event: string, data?: any) {
+    emit(event: string, data?: any): void {
         const callbacks = this.listeners[event];
         if (callbacks) {
-            callbacks.forEach(callback => callback(data));
+            callbacks.forEach(callback => {
+                try {
+                    callback(data);
+                } catch (error) {
+                    console.error(`Error in event listener for ${event}:`, error);
+                }
+            });
         }
     }
 }
