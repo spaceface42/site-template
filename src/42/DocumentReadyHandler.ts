@@ -6,7 +6,7 @@
 type DocumentReadyState = 'loading' | 'interactive' | 'complete';
 
 class DocumentReadyHandler {
-    static readonly VERSION = '1.2.0.fix';
+    static readonly VERSION = '1.2.1';
     readonly ready: Promise<void>;
     
     /**

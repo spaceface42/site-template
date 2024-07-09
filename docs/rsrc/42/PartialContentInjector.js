@@ -67,6 +67,6 @@ class PartialContentInjector {
         }
     }
 }
-PartialContentInjector.VERSION = '1.1.0.fix';
+PartialContentInjector.VERSION = '1.2.1';
 export default PartialContentInjector;
 //# sourceMappingURL=PartialContentInjector.js.map

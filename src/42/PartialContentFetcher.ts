@@ -6,7 +6,7 @@
 import { FetchError, HTTPError, ContentTypeError } from './customErrors.js';
 
 class PartialContentFetcher {
-    static readonly VERSION = '1.1.0.fix';
+    static readonly VERSION = '1.2.1';
     private readonly originUrl: URL;
     
     constructor(baseUrl: string = window.location.href) {

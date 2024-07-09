@@ -51,6 +51,6 @@ class PartialContentFetcher {
         return validTypes.some(type => contentType.includes(type));
     }
 }
-PartialContentFetcher.VERSION = '1.1.0.fix';
+PartialContentFetcher.VERSION = '1.2.1';
 export default PartialContentFetcher;
 //# sourceMappingURL=PartialContentFetcher.js.map

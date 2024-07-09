@@ -19,6 +19,6 @@ class EventEmitter {
         }
     }
 }
-EventEmitter.VERSION = '1.1.0.fix';
+EventEmitter.VERSION = '1.2.1';
 export default EventEmitter;
 //# sourceMappingURL=EventEmitter.js.map
