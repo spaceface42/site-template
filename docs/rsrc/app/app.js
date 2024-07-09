@@ -7,14 +7,14 @@ class AppInitializer {
         this.appEvents = appEvents;
         this.allowedDomains = allowedDomains;
         this.appEvents.emit('info', `Initializing application version ${APP_VERSION}...`);
-        this.documentReadyHandler = new DocumentReadyHandler();
+        // this.documentReadyHandler = new DocumentReadyHandler();
+        this.documentReadyHandler = new DocumentReadyHandler(document, 30000); // 30 seconds timeout
     }
     async initialize() {
         try {
             await this.initializePartialContentInjector();
             await this.waitForDomReady();
             await this.injectPartials();
-            await this.runPostInitializationTasks();
             this.appEvents.emit('info', 'Application initialized successfully');
         }
         catch (error) {

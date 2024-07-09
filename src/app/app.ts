@@ -19,7 +19,9 @@ class AppInitializer {
 
     constructor(private readonly appEvents: EventEmitter, private readonly allowedDomains: string[]) {
         this.appEvents.emit('info', `Initializing application version ${APP_VERSION}...`);
-        this.documentReadyHandler = new DocumentReadyHandler();
+        // this.documentReadyHandler = new DocumentReadyHandler();
+        this.documentReadyHandler = new DocumentReadyHandler(document, 30000); // 30 seconds timeout
+
     }
 
     async initialize() {
