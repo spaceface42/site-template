@@ -53,6 +53,9 @@ class AppInitializer {
         this.appEvents.emit('info', 'All partials injected successfully');
     }
 
+
+
+    // demo stuff     // demo stuff     // demo stuff
     private async runPostInitializationTasks() {
         await this.addWelcomeMessage();
         await this.demoAwait();
@@ -73,6 +76,11 @@ class AppInitializer {
         await new Promise(resolve => setTimeout(resolve, 5000));
         this.appEvents.emit('info', "demoAwait demoAwait demoAwait");
     }
+    // demo stuff     // demo stuff     // demo stuff
+
+
+
+
 
 }
 

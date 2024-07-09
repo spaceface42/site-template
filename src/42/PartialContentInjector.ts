@@ -56,7 +56,7 @@ class PartialContentInjector {
             this.insertContent(content, element);
         } catch (error) {
             console.error(`Error injecting partial from ${url}:`, error instanceof Error ? error.message : String(error));
-            throw error; // Propagate the error
+            throw error;
         }
     }
     
@@ -76,7 +76,7 @@ class PartialContentInjector {
             element.remove();
         } catch (error) {
             console.error('insertContent: Error inserting HTML:', error instanceof Error ? error.message : String(error));
-            throw error; // Propagate the error
+            throw error;
         }
     }
 }
