@@ -1,4 +1,9 @@
+/**
+ * EventEmitter v1.0.2
+ * 
+ */
 class EventEmitter {
+    static readonly VERSION = '1.1.0.fix';
     private listeners: { [key: string]: Function[] } = {};
 
     on(event: string, callback: Function) {

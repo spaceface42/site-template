@@ -8,7 +8,7 @@ import { FetchError, HTTPError, ContentTypeError } from './customErrors.js';
 import PartialContentFetcher from './PartialContentFetcher.js';
 
 class PartialContentInjector {
-    static readonly VERSION = '1.0.2';
+    static readonly VERSION = '1.1.0.fix';
     private partialContentFetcher: PartialContentFetcher;
     private allowedCrossOriginDomains: string[];
     
