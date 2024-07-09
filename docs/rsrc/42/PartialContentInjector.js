@@ -43,7 +43,7 @@ class PartialContentInjector {
         }
         catch (error) {
             console.error(`Error injecting partial from ${url}:`, error instanceof Error ? error.message : String(error));
-            throw error; // Propagate the error
+            throw error;
         }
     }
     isAllowedCrossOrigin(url) {
@@ -63,10 +63,10 @@ class PartialContentInjector {
         }
         catch (error) {
             console.error('insertContent: Error inserting HTML:', error instanceof Error ? error.message : String(error));
-            throw error; // Propagate the error
+            throw error;
         }
     }
 }
-PartialContentInjector.VERSION = '1.0.2';
+PartialContentInjector.VERSION = '1.1.0.fix';
 export default PartialContentInjector;
 //# sourceMappingURL=PartialContentInjector.js.map

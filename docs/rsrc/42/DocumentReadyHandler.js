@@ -44,6 +44,6 @@ class DocumentReadyHandler {
         document.removeEventListener('DOMContentLoaded', listener);
     }
 }
-DocumentReadyHandler.VERSION = '1.2.0';
+DocumentReadyHandler.VERSION = '1.2.0.fix';
 export default DocumentReadyHandler;
 //# sourceMappingURL=DocumentReadyHandler.js.map

@@ -36,6 +36,7 @@ class AppInitializer {
         await this.partialContentInjector.injectAllPartials();
         this.appEvents.emit('info', 'All partials injected successfully');
     }
+    // demo stuff     // demo stuff     // demo stuff
     async runPostInitializationTasks() {
         await this.addWelcomeMessage();
         await this.demoAwait();
@@ -56,6 +57,7 @@ class AppInitializer {
         this.appEvents.emit('info', "demoAwait demoAwait demoAwait");
     }
 }
+AppInitializer.VERSION = '1.1.0.fix';
 // Constants and initialization
 const APP_VERSION = '1.3.0';
 const ALLOWED_DOMAINS = ['raw.githubusercontent.com', 'blackhole.spaceface.org'];

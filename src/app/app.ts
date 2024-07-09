@@ -13,6 +13,7 @@ import EventEmitter from '../42/EventEmitter.js';
 
 // AppInitializer
 class AppInitializer {
+    static readonly VERSION = '1.1.0.fix';
     private documentReadyHandler: DocumentReadyHandler;
     private partialContentInjector: PartialContentInjector;
 

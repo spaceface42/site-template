@@ -1,3 +1,7 @@
+/**
+ * EventEmitter v1.0.2
+ *
+ */
 class EventEmitter {
     constructor() {
         this.listeners = {};
@@ -15,5 +19,6 @@ class EventEmitter {
         }
     }
 }
+EventEmitter.VERSION = '1.1.0.fix';
 export default EventEmitter;
 //# sourceMappingURL=EventEmitter.js.map
