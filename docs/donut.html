@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>3D Donut</title>
+    <style>
+        canvas {
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="800" height="800"></canvas>
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const WIDTH = canvas.width;
+const HEIGHT = canvas.height;
+const FPS = 24;
+const WHITE = '#FFFFFF';
+const BLACK = '#000000';
+let hue = 0;
+
+const pixelWidth = 20;
+const pixelHeight = 20;
+
+const screenWidth = WIDTH / pixelWidth;
+const screenHeight = HEIGHT / pixelHeight;
+const screenSize = screenWidth * screenHeight;
+
+let A = 0;
+let B = 0;
+
+const thetaSpacing = 10;
+const phiSpacing = 3;
+
+const chars = ".,-~:;=!*#$@";
+
+const R1 = 10;
+const R2 = 20;
+const K2 = 200;
+const K1 = screenHeight * K2 * 3 / (8 * (R1 + R2));
+
+function hsvToRgb(h, s, v) {
+    let r, g, b;
+    let i = Math.floor(h * 6);
+    let f = h * 6 - i;
+    let p = v * (1 - s);
+    let q = v * (1 - f * s);
+    let t = v * (1 - (1 - f) * s);
+
+    switch (i % 6) {
+        case 0: r = v, g = t, b = p; break;
+        case 1: r = q, g = v, b = p; break;
+        case 2: r = p, g = v, b = t; break;
+        case 3: r = p, g = q, b = v; break;
+        case 4: r = t, g = p, b = v; break;
+        case 5: r = v, g = p, b = q; break;
+    }
+
+    return {
+        r: Math.round(r * 255),
+        g: Math.round(g * 255),
+        b: Math.round(b * 255)
+    };
+}
+
+function textDisplay(char, x, y) {
+    const { r, g, b } = hsvToRgb(hue, 1, 1);
+    ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+    ctx.fillText(char, x, y);
+}
+
+function render() {
+    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+    ctx.fillStyle = BLACK;
+    ctx.fillRect(0, 0, WIDTH, HEIGHT);
+    ctx.font = '20px Arial';
+
+    let output = Array(screenSize).fill(' ');
+    let zbuffer = Array(screenSize).fill(0);
+
+    for (let theta = 0; theta < 628; theta += thetaSpacing) {
+        for (let phi = 0; phi < 628; phi += phiSpacing) {
+            const cosA = Math.cos(A);
+            const sinA = Math.sin(A);
+            const cosB = Math.cos(B);
+            const sinB = Math.sin(B);
+
+            const costheta = Math.cos(theta);
+            const sintheta = Math.sin(theta);
+            const cosphi = Math.cos(phi);
+            const sinphi = Math.sin(phi);
+
+            const circlex = R2 + R1 * costheta;
+            const circley = R1 * sintheta;
+
+            const x = circlex * (cosB * cosphi + sinA * sinB * sinphi) - circley * cosA * sinB;
+            const y = circlex * (sinB * cosphi - sinA * cosB * sinphi) + circley * cosA * cosB;
+            const z = K2 + cosA * circlex * sinphi + circley * sinA;
+            const ooz = 1 / z;
+
+            const xp = Math.floor(screenWidth / 2 + K1 * ooz * x);
+            const yp = Math.floor(screenHeight / 2 - K1 * ooz * y);
+
+            const position = xp + screenWidth * yp;
+
+            const L = cosphi * costheta * sinB - cosA * costheta * sinphi - sinA * sintheta + cosB * (cosA * sintheta - costheta * sinA * sinphi);
+
+            if (ooz > zbuffer[position]) {
+                zbuffer[position] = ooz;
+                const luminanceIndex = Math.floor(L * 8);
+                output[position] = chars[Math.max(luminanceIndex, 0)];
+            }
+        }
+    }
+
+    let xPixel = 0;
+    let yPixel = 0;
+    let k = 0;
+
+    for (let i = 0; i < screenHeight; i++) {
+        yPixel += pixelHeight;
+        for (let j = 0; j < screenWidth; j++) {
+            xPixel += pixelWidth;
+            textDisplay(output[k], xPixel, yPixel);
+            k++;
+        }
+        xPixel = 0;
+    }
+
+    A += 0.005;
+    B += 0.005;
+
+    hue += 0.0005;
+
+    requestAnimationFrame(render);
+}
+
+let paused = false;
+
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+        paused = true;
+    }
+    if (event.key === ' ') {
+        paused = !paused;
+    }
+});
+
+render();
+</script>
+</body>
+</html>
