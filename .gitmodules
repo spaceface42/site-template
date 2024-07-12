@@ -1,0 +1,3 @@
+[submodule "42"]
+	path = src/42
+	url = https://github.com/spaceface42/42
