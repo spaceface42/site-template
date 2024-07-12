@@ -1,3 +1,6 @@
 [submodule "42"]
 	path = src/42
 	url = https://github.com/spaceface42/42
+[submodule "src/42"]
+	path = src/42
+	url = https://github.com/spaceface42/42

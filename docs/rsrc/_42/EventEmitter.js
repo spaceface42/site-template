@@ -2,15 +2,14 @@
  * EventEmitter v1.2.1
  */
 class EventEmitter {
-    static readonly VERSION = '1.2.1';
-    private listeners: { [key: string]: Array<(data?: any) => void> } = {};
-
-    on(event: string, callback: (data?: any) => void): () => void {
+    constructor() {
+        this.listeners = {};
+    }
+    on(event, callback) {
         if (!this.listeners[event]) {
             this.listeners[event] = [];
         }
         this.listeners[event].push(callback);
-        
         // Return a function to remove this listener
         return () => {
             const eventListeners = this.listeners[event];
@@ -19,19 +18,20 @@ class EventEmitter {
             }
         };
     }
-
-    emit(event: string, data?: any): void {
+    emit(event, data) {
         const callbacks = this.listeners[event];
         if (callbacks) {
             callbacks.forEach(callback => {
                 try {
                     callback(data);
-                } catch (error) {
+                }
+                catch (error) {
                     console.error(`Error in event listener for ${event}:`, error);
                 }
             });
         }
     }
 }
-
+EventEmitter.VERSION = '1.2.1';
 export default EventEmitter;
+//# sourceMappingURL=EventEmitter.js.map

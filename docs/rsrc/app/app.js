@@ -36,21 +36,9 @@ class AppInitializer {
         await this.partialContentInjector.injectAllPartials();
         this.appEvents.emit('info', 'All partials injected successfully');
     }
-    // demo stuff     // demo stuff     // demo stuff
     async runPostInitializationTasks() {
         await this.addWelcomeMessage();
         await this.demoAwait();
-    }
-    async addWelcomeMessage() {
-        const consoleElement = document.getElementById('console');
-        if (consoleElement) {
-            const h3 = document.createElement('h3');
-            h3.textContent = `Welcome to spaceface / spacesuit / version ${APP_VERSION}`;
-            consoleElement.appendChild(h3);
-        }
-        else {
-            this.appEvents.emit('warn', 'Element with id "console" not found');
-        }
     }
     async demoAwait() {
         await new Promise(resolve => setTimeout(resolve, 5000));
@@ -74,5 +62,10 @@ window.addEventListener('error', (event) => {
 const appInitializer = new AppInitializer(appEvents, ALLOWED_DOMAINS);
 appInitializer.initialize().catch(() => {
     // Handle any cleanup or user notification here
+});
+appInitializer.initialize().catch((error) => {
+    console.error('Application initialization failed:', error);
+    appEvents.emit('error', 'Application initialization failed. Please check the console for more details.');
+    // Perform any necessary cleanup or user notification here
 });
 //# sourceMappingURL=app.js.map

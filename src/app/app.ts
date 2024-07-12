@@ -3,7 +3,7 @@
  * 
  * Initialization script for the application.
  */
-import { FetchError } from '../42/customErrors.js';
+import { FetchError, HTTPError, ContentTypeError } from '../42/customErrors.js';
 import DocumentReadyHandler from '../42/DocumentReadyHandler.js';
 import PartialContentInjector from '../42/PartialContentInjector.js';
 import EventEmitter from '../42/EventEmitter.js';
@@ -30,6 +30,9 @@ class AppInitializer {
             await this.waitForDomReady();
             await this.injectPartials();
 
+            await this.demoErrors();
+            await this.runPostInitializationTasks();
+
             this.appEvents.emit('info', 'Application initialized successfully');
         } catch (error) {
             this.appEvents.emit('error', 'Initialization failed');
@@ -54,9 +57,6 @@ class AppInitializer {
         this.appEvents.emit('info', 'All partials injected successfully');
     }
 
-
-
-    // demo stuff     // demo stuff     // demo stuff
     private async runPostInitializationTasks() {
         await this.addWelcomeMessage();
         await this.demoAwait();
@@ -77,12 +77,10 @@ class AppInitializer {
         await new Promise(resolve => setTimeout(resolve, 5000));
         this.appEvents.emit('info', "demoAwait demoAwait demoAwait");
     }
-    // demo stuff     // demo stuff     // demo stuff
 
-
-
-
-
+    private async demoErrors() {
+        this.appEvents.emit('error', 'demoErrors Someerror Initialization failed');
+    }
 }
 
 // Constants and initialization
@@ -106,3 +104,10 @@ const appInitializer = new AppInitializer(appEvents, ALLOWED_DOMAINS);
 appInitializer.initialize().catch(() => {
     // Handle any cleanup or user notification here
 });
+
+appInitializer.initialize().catch((error) => {
+    console.error('Application initialization failed:', error);
+    appEvents.emit('error', 'Application initialization failed. Please check the console for more details.');
+    // Perform any necessary cleanup or user notification here
+});
+

@@ -1,26 +1,19 @@
-type DocumentReadyState = 'loading' | 'interactive' | 'complete';
-
 class DocumentReadyHandler {
-    static readonly VERSION = '1.2.2';
-    readonly ready: Promise<void>;
-    private timeoutId: number | null = null;
-    
-    constructor(document: Document = window.document, timeout: number = 10000) {
+    constructor(document = window.document, timeout = 10000) {
+        this.timeoutId = null;
         this.ready = this.initPromise(document, timeout);
     }
-    
-    private initPromise(document: Document, timeout: number): Promise<void> {
-        return new Promise<void>((resolve, reject) => {
+    initPromise(document, timeout) {
+        return new Promise((resolve, reject) => {
             if (this.isDomReady(document.readyState)) {
                 resolve();
-            } else {
+            }
+            else {
                 const onReady = () => {
                     this.cleanup(document, onReady);
                     resolve();
                 };
-                
                 document.addEventListener('DOMContentLoaded', onReady);
-                
                 this.timeoutId = window.setTimeout(() => {
                     this.cleanup(document, onReady);
                     reject(new Error('DOM ready timeout'));
@@ -28,25 +21,23 @@ class DocumentReadyHandler {
             }
         });
     }
-    
-    private isDomReady(state: DocumentReadyState): boolean {
+    isDomReady(state) {
         return state === 'interactive' || state === 'complete';
     }
-    
-    private cleanup(document: Document, listener: EventListener): void {
+    cleanup(document, listener) {
         if (this.timeoutId !== null) {
             window.clearTimeout(this.timeoutId);
             this.timeoutId = null;
         }
         document.removeEventListener('DOMContentLoaded', listener);
     }
-    
-    cancel(): void {
+    cancel() {
         if (this.timeoutId !== null) {
             window.clearTimeout(this.timeoutId);
             this.timeoutId = null;
         }
     }
 }
-
+DocumentReadyHandler.VERSION = '1.2.2';
 export default DocumentReadyHandler;
+//# sourceMappingURL=DocumentReadyHandler.js.map
