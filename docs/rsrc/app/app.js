@@ -15,6 +15,8 @@ class AppInitializer {
             await this.initializePartialContentInjector();
             await this.waitForDomReady();
             await this.injectPartials();
+            await this.demoErrors();
+            await this.runPostInitializationTasks();
             this.appEvents.emit('info', 'Application initialized successfully');
         }
         catch (error) {
@@ -40,9 +42,23 @@ class AppInitializer {
         await this.addWelcomeMessage();
         await this.demoAwait();
     }
+    async addWelcomeMessage() {
+        const consoleElement = document.getElementById('console');
+        if (consoleElement) {
+            const h3 = document.createElement('h3');
+            h3.textContent = `Welcome to spaceface / spacesuit / version ${APP_VERSION}`;
+            consoleElement.appendChild(h3);
+        }
+        else {
+            this.appEvents.emit('warn', 'Element with id "console" not found');
+        }
+    }
     async demoAwait() {
         await new Promise(resolve => setTimeout(resolve, 5000));
         this.appEvents.emit('info', "demoAwait demoAwait demoAwait");
+    }
+    async demoErrors() {
+        this.appEvents.emit('error', 'demoErrors Someerror Initialization failed');
     }
 }
 AppInitializer.VERSION = '1.1.0.fix';
