@@ -28,6 +28,9 @@ class AppInitializer {
     }
     async initializePartialContentInjector() {
         this.partialContentInjector = new PartialContentInjector(this.allowedDomains);
+        if (PartialContentInjector.VERSION !== '1.2.1') {
+            this.appEvents.emit('warn', `PartialContentInjector version mismatch. Expected 1.2.1, got ${PartialContentInjector.VERSION}`);
+        }
     }
     async waitForDomReady() {
         await this.documentReadyHandler.ready;
@@ -37,8 +40,9 @@ class AppInitializer {
         if (!this.partialContentInjector) {
             throw new Error('PartialContentInjector is not initialized');
         }
+        // Call injectAllPartials, which now uses :not([data-partial-loaded])
         await this.partialContentInjector.injectAllPartials();
-        this.appEvents.emit('info', 'All partials injected successfully');
+        this.appEvents.emit('info', 'All new partials injected successfully');
     }
     async runPostInitializationTasks() {
         // Removed demoAwait and demoErrors
