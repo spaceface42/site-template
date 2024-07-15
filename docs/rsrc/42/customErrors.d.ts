@@ -1,3 +1,7 @@
+/**
+ * custom errors v1.0.0
+ *
+ */
 export declare class FetchError extends Error {
     readonly url: string;
     constructor(message: string, url: string);

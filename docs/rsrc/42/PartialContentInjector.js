@@ -14,8 +14,18 @@ class PartialContentInjector {
         this.partialContentFetcher = new PartialContentFetcher(baseUrl);
         this.allowedCrossOriginDomains = allowedCrossOriginDomains;
     }
-    async injectAllPartials(selector = 'link[rel="html"]') {
+    async injectAllPartialsOLD(selector = 'link[rel="html"]') {
         const partials = document.querySelectorAll(selector);
+        await Promise.all(Array.from(partials).map(async (partial) => {
+            const url = partial.getAttribute('href');
+            if (!url) {
+                throw new Error(`injectAllPartials: No URL provided for element: ${partial.outerHTML}`);
+            }
+            await this.injectPartial(url, partial);
+        }));
+    }
+    async injectAllPartials(selector = 'link[rel="html"]') {
+        const partials = document.querySelectorAll(selector + ':not([data-partial-loaded])');
         await Promise.all(Array.from(partials).map(async (partial) => {
             const url = partial.getAttribute('href');
             if (!url) {
@@ -31,7 +41,7 @@ class PartialContentInjector {
         }
         await this.injectPartial(url, targetElement);
     }
-    async injectPartialX(url, element) {
+    async injectPartial(url, element) {
         try {
             let content;
             if (this.partialContentFetcher.isSameOrigin(url)) {
@@ -52,16 +62,6 @@ class PartialContentInjector {
             console.error(`Error injecting partial from ${url}:`, error instanceof Error ? error.message : String(error));
             throw error;
         }
-    }
-    async injectAllPartials(selector = 'link[rel="html"]') {
-        const partials = document.querySelectorAll(selector + ':not([data-partial-loaded])');
-        await Promise.all(Array.from(partials).map(async (partial) => {
-            const url = partial.getAttribute('href');
-            if (!url) {
-                throw new Error(`injectAllPartials: No URL provided for element: ${partial.outerHTML}`);
-            }
-            await this.injectPartial(url, partial);
-        }));
     }
     isAllowedCrossOrigin(url) {
         try {

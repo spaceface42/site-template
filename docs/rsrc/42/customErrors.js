@@ -1,3 +1,7 @@
+/**
+ * custom errors v1.0.0
+ *
+ */
 export class FetchError extends Error {
     constructor(message, url) {
         super(message);
