@@ -3,7 +3,6 @@
  * 
  * Initialization script for the application.
  */
-import { FetchError, HTTPError, ContentTypeError } from '../42/customErrors.js';
 import DocumentReadyHandler from '../42/DocumentReadyHandler.js';
 import PartialContentInjector from '../42/PartialContentInjector.js';
 import EventEmitter from '../42/EventEmitter.js';

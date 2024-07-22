@@ -1,3 +1,8 @@
+/**
+ * PartialContentFetcher v1.2.1
+ *
+ * fetch html partials
+ */
 declare class PartialContentFetcher {
     static readonly VERSION = "1.2.1";
     private readonly originUrl;

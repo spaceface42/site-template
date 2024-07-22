@@ -14,7 +14,7 @@ class PartialContentInjector {
         this.partialContentFetcher = new PartialContentFetcher(baseUrl);
         this.allowedCrossOriginDomains = allowedCrossOriginDomains;
     }
-    async injectAllPartialsOLD(selector = 'link[rel="html"]') {
+    async injectAllPartials(selector = 'link[rel="html"]') {
         const partials = document.querySelectorAll(selector);
         await Promise.all(Array.from(partials).map(async (partial) => {
             const url = partial.getAttribute('href');
@@ -24,7 +24,7 @@ class PartialContentInjector {
             await this.injectPartial(url, partial);
         }));
     }
-    async injectAllPartials(selector = 'link[rel="html"]') {
+    async injectAllPartialsOBSOLETE(selector = 'link[rel="html"]') {
         const partials = document.querySelectorAll(selector + ':not([data-partial-loaded])');
         await Promise.all(Array.from(partials).map(async (partial) => {
             const url = partial.getAttribute('href');
@@ -73,7 +73,7 @@ class PartialContentInjector {
             return false;
         }
     }
-    insertContentX(content, element) {
+    insertContent(content, element) {
         try {
             element.insertAdjacentHTML('beforebegin', content.trim());
             element.remove();
@@ -97,7 +97,7 @@ class PartialContentInjector {
             throw error;
         }
     }
-    insertContent(content, element) {
+    insertContentDebug(content, element) {
         var _a;
         try {
             // Create a new div to hold the content

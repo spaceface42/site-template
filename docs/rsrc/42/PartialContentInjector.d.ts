@@ -3,13 +3,13 @@ declare class PartialContentInjector {
     private partialContentFetcher;
     private allowedCrossOriginDomains;
     constructor(allowedCrossOriginDomains: string[], baseUrl?: string);
-    injectAllPartialsOLD(selector?: string): Promise<void>;
     injectAllPartials(selector?: string): Promise<void>;
+    injectAllPartialsOBSOLETE(selector?: string): Promise<void>;
     injectSinglePartial(url: string, targetSelector: string): Promise<void>;
     private injectPartial;
     private isAllowedCrossOrigin;
-    private insertContentX;
-    private insertContentXX;
     private insertContent;
+    private insertContentXX;
+    private insertContentDebug;
 }
 export default PartialContentInjector;

@@ -1,3 +1,8 @@
+/**
+ * init.ts
+ *
+ * Initialization script for the application.
+ */
 import DocumentReadyHandler from '../42/DocumentReadyHandler.js';
 import PartialContentInjector from '../42/PartialContentInjector.js';
 import EventEmitter from '../42/EventEmitter.js';
